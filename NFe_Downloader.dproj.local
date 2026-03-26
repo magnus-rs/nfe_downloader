@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/07/24 14:05:37.000.272,=C:\Users\magnu\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2025/08/14 11:47:51.000.129,=C:\Users\Magnus R. Souza\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2025/08/14 14:36:52.000.007,=C:\Users\Magnus R. Souza\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2026/02/17 15:45:30.000.746,=C:\Users\magnu\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2026/02/17 15:57:57.000.356,=C:\Users\magnu\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2026/03/22 15:42:49.000.088,=C:\Users\magnu\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2026/03/23 20:33:29.000.842,=C:\Users\magnu\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2026/03/23 20:39:53.000.612,C:\Users\magnu\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas=D:\dev.pascal\nfe_downloader\U_Principal.pas</Transaction>
+    <Transaction>2026/03/23 20:39:53.000.612,C:\Users\magnu\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.dfm=D:\dev.pascal\nfe_downloader\U_Principal.dfm</Transaction>
+    <Transaction>2026/03/23 20:40:04.000.535,C:\Users\magnu\OneDrive\Documentos\Embarcadero\Studio\Projects\Project1.dproj=D:\dev.pascal\nfe_downloader\NFe_Downloader.dproj</Transaction>
+    <Transaction>2026/03/23 20:42:10.000.197,=D:\dev.pascal\nfe_downloader\icons\Nfe_Downloader_64.ico</Transaction>
+    <Transaction>2026/03/23 20:42:10.000.163,=D:\dev.pascal\nfe_downloader\icons\Nfe_Downloader_128.ico</Transaction>
+    <Transaction>2026/03/25 14:40:03.199,=D:\dev.pascal\nfe_downloader\Unit1.pas</Transaction>
+    <Transaction>2026/03/25 14:40:39.136,=D:\dev.pascal\nfe_downloader\Unit1.pas</Transaction>
+    <Transaction>2026/03/25 14:44:47.497,D:\dev.pascal\nfe_downloader\U_Certificados.dfm=D:\dev.pascal\nfe_downloader\Unit1.dfm</Transaction>
+    <Transaction>2026/03/25 14:44:47.497,D:\dev.pascal\nfe_downloader\U_Certificados.pas=D:\dev.pascal\nfe_downloader\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,18 @@
+program NFe_Downloader;
+
+{$R *.dres}
+
+uses
+  Vcl.Forms,
+  U_Principal in 'U_Principal.pas' {Form_Principal},
+  U_Certificados in 'U_Certificados.pas' {Form1};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm_Principal, Form_Principal);
+  Application.CreateForm(TForm1, Form1);
+  Application.Run;
+end.

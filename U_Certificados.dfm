@@ -1,0 +1,28 @@
+object Form_certificados: TForm_certificados
+  Left = 0
+  Top = 0
+  Caption = 'Form_certificados'
+  ClientHeight = 206
+  ClientWidth = 714
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object grid_certificados: TStringGrid
+    Left = 0
+    Top = 0
+    Width = 714
+    Height = 120
+    Align = alTop
+    FixedCols = 0
+    TabOrder = 0
+    ExplicitLeft = 256
+    ExplicitTop = 72
+    ExplicitWidth = 320
+  end
+end
