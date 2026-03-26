@@ -2,8 +2,8 @@ object Form_Principal: TForm_Principal
   Left = 0
   Top = 0
   Caption = 'NFe Downloader'
-  ClientHeight = 431
-  ClientWidth = 772
+  ClientHeight = 779
+  ClientWidth = 1209
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -543,17 +543,36 @@ object Form_Principal: TForm_Principal
     000000000000000000000000000000000000000000000000000000000000}
   Menu = MainMenu1
   OldCreateOrder = False
+  Position = poDesigned
   WindowState = wsMaximized
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
+  object Splitter1: TSplitter
+    Left = 185
+    Top = 29
+    Height = 731
+    ExplicitLeft = 224
+    ExplicitTop = 32
+    ExplicitHeight = 100
+  end
+  object Splitter2: TSplitter
+    Left = 1030
+    Top = 29
+    Height = 731
+    Align = alRight
+    ExplicitLeft = 296
+    ExplicitTop = 32
+    ExplicitHeight = 100
+  end
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 772
+    Width = 1209
     Height = 29
     Caption = 'ToolBar1'
     TabOrder = 0
+    ExplicitWidth = 772
     object ToolButton5: TToolButton
       Left = 0
       Top = 0
@@ -595,30 +614,32 @@ object Form_Principal: TForm_Principal
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 412
-    Width = 772
+    Top = 760
+    Width = 1209
     Height = 19
     Panels = <>
+    ExplicitTop = 412
+    ExplicitWidth = 772
   end
   object Panel1: TPanel
     Left = 0
     Top = 29
     Width = 185
-    Height = 383
+    Height = 731
     Align = alLeft
-    BevelOuter = bvNone
     Caption = 'Panel1'
     TabOrder = 2
-    ExplicitLeft = 152
-    ExplicitTop = 136
-    ExplicitHeight = 41
+    ExplicitHeight = 383
     object ToolBar2: TToolBar
-      Left = 0
-      Top = 0
-      Width = 185
+      Left = 1
+      Top = 1
+      Width = 183
       Height = 22
       Caption = 'ToolBar2'
       TabOrder = 0
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 185
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -645,78 +666,172 @@ object Form_Principal: TForm_Principal
       end
     end
     object TreeView1: TTreeView
-      Left = 0
-      Top = 22
-      Width = 185
-      Height = 361
+      Left = 1
+      Top = 23
+      Width = 183
+      Height = 707
       Align = alClient
       Indent = 19
       TabOrder = 1
-      ExplicitLeft = 64
-      ExplicitTop = 112
-      ExplicitWidth = 121
-      ExplicitHeight = 97
+      ExplicitLeft = 0
+      ExplicitTop = 22
+      ExplicitWidth = 185
+      ExplicitHeight = 361
     end
   end
   object Panel2: TPanel
-    Left = 624
+    Left = 1033
     Top = 29
-    Width = 148
-    Height = 383
+    Width = 176
+    Height = 731
     Align = alRight
-    BevelOuter = bvNone
     Caption = 'Panel2'
     TabOrder = 3
+    ExplicitLeft = 872
+    ExplicitHeight = 599
     object Panel3: TPanel
-      Left = 0
-      Top = 0
-      Width = 148
+      Left = 1
+      Top = 1
+      Width = 174
       Height = 22
       Align = alTop
       BevelOuter = bvNone
       Caption = 'Filtros'
       TabOrder = 0
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 148
     end
     object TreeView2: TTreeView
-      Left = 0
-      Top = 22
-      Width = 148
-      Height = 361
+      Left = 1
+      Top = 23
+      Width = 174
+      Height = 707
       Align = alClient
       Indent = 19
       TabOrder = 1
-      ExplicitLeft = 88
-      ExplicitTop = 240
-      ExplicitWidth = 121
-      ExplicitHeight = 97
+      ExplicitLeft = 5
+      ExplicitTop = 22
+      ExplicitWidth = 143
+      ExplicitHeight = 577
     end
   end
   object Panel4: TPanel
-    Left = 185
+    Left = 188
     Top = 29
-    Width = 439
-    Height = 383
+    Width = 842
+    Height = 731
     Align = alClient
     Caption = 'Panel4'
     TabOrder = 4
-    ExplicitLeft = 448
-    ExplicitTop = 272
-    ExplicitWidth = 185
-    ExplicitHeight = 41
-    object StringGrid1: TStringGrid
+    ExplicitLeft = 179
+    ExplicitTop = 35
+    ExplicitWidth = 715
+    ExplicitHeight = 599
+    object Panel5: TPanel
       Left = 1
       Top = 1
-      Width = 437
-      Height = 381
-      Align = alClient
-      DefaultRowHeight = 12
-      FixedCols = 0
-      Options = [goFixedHorzLine, goHorzLine, goRangeSelect, goRowSelect, goFixedRowDefAlign]
+      Width = 840
+      Height = 41
+      Align = alTop
+      Caption = 'Panel5'
       TabOrder = 0
-      ExplicitLeft = 152
-      ExplicitTop = 136
-      ExplicitWidth = 320
-      ExplicitHeight = 120
+      ExplicitLeft = 176
+      ExplicitTop = 64
+      ExplicitWidth = 185
+    end
+    object PageControl1: TPageControl
+      Left = 1
+      Top = 42
+      Width = 840
+      Height = 688
+      ActivePage = TabSheet3
+      Align = alClient
+      TabOrder = 1
+      ExplicitLeft = 104
+      ExplicitTop = 96
+      ExplicitWidth = 289
+      ExplicitHeight = 193
+      object TabSheet1: TTabSheet
+        Caption = 'Emitidas por terceiros'
+      end
+      object TabSheet2: TTabSheet
+        Caption = 'Emitidas pela empresa'
+        ImageIndex = 1
+      end
+      object TabSheet3: TTabSheet
+        Caption = 'Certificados'
+        ImageIndex = 2
+        object Panel6: TPanel
+          Left = 0
+          Top = 0
+          Width = 832
+          Height = 41
+          Align = alTop
+          TabOrder = 0
+          ExplicitLeft = 1
+          object Label1: TLabel
+            Left = 19
+            Top = 10
+            Width = 198
+            Height = 18
+            Caption = 'Ger'#234'nciamento de Certificados'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object BTN_Importar_Certificado: TButton
+            Left = 312
+            Top = 10
+            Width = 142
+            Height = 25
+            Caption = 'Importar Certificado'
+            TabOrder = 0
+          end
+          object BTN_Remover_Certificado: TButton
+            Left = 488
+            Top = 10
+            Width = 142
+            Height = 25
+            Caption = 'Remover Certificado'
+            TabOrder = 1
+          end
+          object BTN_Atualizar_Lista: TButton
+            Left = 664
+            Top = 10
+            Width = 142
+            Height = 25
+            Caption = 'Atualizar Lista'
+            TabOrder = 2
+          end
+        end
+        object StringGrid1: TStringGrid
+          Left = 0
+          Top = 41
+          Width = 832
+          Height = 619
+          Align = alClient
+          ColCount = 9
+          FixedCols = 0
+          Options = [goFixedVertLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
+          TabOrder = 1
+          ExplicitLeft = 4
+          ExplicitTop = 65
+          ColWidths = (
+            277
+            324
+            184
+            126
+            115
+            94
+            111
+            96
+            86)
+        end
+      end
     end
   end
   object MainMenu1: TMainMenu

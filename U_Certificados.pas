@@ -4,11 +4,12 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
   TForm_certificados = class(TForm)
-    grid_certificados: TStringGrid;
+    Panel1: TPanel;
+    Btn_Adicionar: TButton;
   private
     { Private declarations }
   public

@@ -36,7 +36,19 @@ type
     Panel3: TPanel;
     TreeView2: TTreeView;
     Panel4: TPanel;
+    Panel5: TPanel;
+    Splitter1: TSplitter;
+    Splitter2: TSplitter;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    Panel6: TPanel;
     StringGrid1: TStringGrid;
+    Label1: TLabel;
+    BTN_Importar_Certificado: TButton;
+    BTN_Remover_Certificado: TButton;
+    BTN_Atualizar_Lista: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ConfigurarACBr;
   private
@@ -55,6 +67,15 @@ implementation
 procedure TForm_Principal.FormCreate(Sender: TObject);
 begin
   ConfigurarACBr;
+  StringGrid1.Cells[0,0] := 'Titular';
+  StringGrid1.Cells[1,0] := 'email';
+  StringGrid1.Cells[2,0] := 'CNPJ';
+  StringGrid1.Cells[3,0] := 'Tipo';
+  StringGrid1.Cells[4,0] := 'Vencimento';
+  StringGrid1.Cells[5,0] := 'Status';
+  StringGrid1.Cells[6,0] := 'Tempo Restante';
+  StringGrid1.Cells[7,0] := 'Local';
+  StringGrid1.Cells[8,0] := 'Ações';
 end;
 
 procedure TForm_Principal.ConfigurarACBr;
