@@ -106,6 +106,7 @@
             <Form>Form_certificados</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uEmpresa.pas"/>
         <RcItem Include="icons\Nfe_Downloader_128.ico">
             <ResourceType>ICON</ResourceType>
             <ResourceId>Icon_2</ResourceId>
@@ -136,7 +137,7 @@
                 </Source>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="icons\Nfe_Downloader_64.ico" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="icons\Nfe_Downloader_128.ico" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -148,7 +149,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="icons\Nfe_Downloader_128.ico" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="icons\Nfe_Downloader_64.ico" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

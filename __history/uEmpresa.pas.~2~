@@ -1,0 +1,30 @@
+unit uEmpresa;
+
+interface
+
+uses
+  System.SysUtils;
+
+type
+  TEmpresa = class
+  private
+    FCNPJ: string;
+    FRazaoSocial: string;
+    FNomeFantasia: string;
+    FCertificadoPath: string;
+    FCertificadoSenha: string;
+    FValidadeInicio: TDate;
+    FValidadeFim: TDate;
+  public
+    property CNPJ: string read FCNPJ write FCNPJ;
+    property RazaoSocial: string read FRazaoSocial write FRazaoSocial;
+    property NomeFantasia: string read FNomeFantasia write FNomeFantasia;
+    property CertificadoPath: string read FCertificadoPath write FCertificadoPath;
+    property CertificadoSenha: string read FCertificadoSenha write FCertificadoSenha;
+    property ValidadeInicio: TDate read FValidadeInicio write FValidadeInicio;
+    property ValidadeFim: TDate read FValidadeFim write FValidadeFim;
+  end;
+
+implementation
+
+end.

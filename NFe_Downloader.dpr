@@ -5,7 +5,8 @@ program NFe_Downloader;
 uses
   Vcl.Forms,
   U_Principal in 'U_Principal.pas' {Form_Principal},
-  U_Certificados in 'U_Certificados.pas' {Form_certificados};
+  U_Certificados in 'U_Certificados.pas' {Form_certificados},
+  uEmpresa in 'uEmpresa.pas';
 
 {$R *.res}
 

@@ -2,7 +2,7 @@ object Form_Principal: TForm_Principal
   Left = 0
   Top = 0
   Caption = 'NFe Downloader'
-  ClientHeight = 779
+  ClientHeight = 729
   ClientWidth = 1209
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -551,7 +551,7 @@ object Form_Principal: TForm_Principal
   object Splitter1: TSplitter
     Left = 185
     Top = 29
-    Height = 731
+    Height = 681
     ExplicitLeft = 224
     ExplicitTop = 32
     ExplicitHeight = 100
@@ -559,7 +559,7 @@ object Form_Principal: TForm_Principal
   object Splitter2: TSplitter
     Left = 1030
     Top = 29
-    Height = 731
+    Height = 681
     Align = alRight
     ExplicitLeft = 296
     ExplicitTop = 32
@@ -572,7 +572,6 @@ object Form_Principal: TForm_Principal
     Height = 29
     Caption = 'ToolBar1'
     TabOrder = 0
-    ExplicitWidth = 772
     object ToolButton5: TToolButton
       Left = 0
       Top = 0
@@ -614,22 +613,19 @@ object Form_Principal: TForm_Principal
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 760
+    Top = 710
     Width = 1209
     Height = 19
     Panels = <>
-    ExplicitTop = 412
-    ExplicitWidth = 772
   end
   object Panel1: TPanel
     Left = 0
     Top = 29
     Width = 185
-    Height = 731
+    Height = 681
     Align = alLeft
     Caption = 'Panel1'
     TabOrder = 2
-    ExplicitHeight = 383
     object ToolBar2: TToolBar
       Left = 1
       Top = 1
@@ -637,9 +633,6 @@ object Form_Principal: TForm_Principal
       Height = 22
       Caption = 'ToolBar2'
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 185
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -669,26 +662,20 @@ object Form_Principal: TForm_Principal
       Left = 1
       Top = 23
       Width = 183
-      Height = 707
+      Height = 657
       Align = alClient
       Indent = 19
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 22
-      ExplicitWidth = 185
-      ExplicitHeight = 361
     end
   end
   object Panel2: TPanel
     Left = 1033
     Top = 29
     Width = 176
-    Height = 731
+    Height = 681
     Align = alRight
     Caption = 'Panel2'
     TabOrder = 3
-    ExplicitLeft = 872
-    ExplicitHeight = 599
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -698,36 +685,25 @@ object Form_Principal: TForm_Principal
       BevelOuter = bvNone
       Caption = 'Filtros'
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 148
     end
     object TreeView2: TTreeView
       Left = 1
       Top = 23
       Width = 174
-      Height = 707
+      Height = 657
       Align = alClient
       Indent = 19
       TabOrder = 1
-      ExplicitLeft = 5
-      ExplicitTop = 22
-      ExplicitWidth = 143
-      ExplicitHeight = 577
     end
   end
   object Panel4: TPanel
     Left = 188
     Top = 29
     Width = 842
-    Height = 731
+    Height = 681
     Align = alClient
     Caption = 'Panel4'
     TabOrder = 4
-    ExplicitLeft = 179
-    ExplicitTop = 35
-    ExplicitWidth = 715
-    ExplicitHeight = 599
     object Panel5: TPanel
       Left = 1
       Top = 1
@@ -736,22 +712,15 @@ object Form_Principal: TForm_Principal
       Align = alTop
       Caption = 'Panel5'
       TabOrder = 0
-      ExplicitLeft = 176
-      ExplicitTop = 64
-      ExplicitWidth = 185
     end
     object PageControl1: TPageControl
       Left = 1
       Top = 42
       Width = 840
-      Height = 688
+      Height = 638
       ActivePage = TabSheet3
       Align = alClient
       TabOrder = 1
-      ExplicitLeft = 104
-      ExplicitTop = 96
-      ExplicitWidth = 289
-      ExplicitHeight = 193
       object TabSheet1: TTabSheet
         Caption = 'Emitidas por terceiros'
       end
@@ -769,7 +738,6 @@ object Form_Principal: TForm_Principal
           Height = 41
           Align = alTop
           TabOrder = 0
-          ExplicitLeft = 1
           object Label1: TLabel
             Left = 19
             Top = 10
@@ -812,18 +780,16 @@ object Form_Principal: TForm_Principal
           Left = 0
           Top = 41
           Width = 832
-          Height = 619
+          Height = 569
           Align = alClient
           ColCount = 9
           FixedCols = 0
           Options = [goFixedVertLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
           TabOrder = 1
-          ExplicitLeft = 4
-          ExplicitTop = 65
           ColWidths = (
-            277
-            324
-            184
+            257
+            275
+            129
             126
             115
             94

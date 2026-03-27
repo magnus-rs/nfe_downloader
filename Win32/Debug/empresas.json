@@ -1,0 +1,12 @@
+{
+  "empresas": [
+    {
+      "cnpj": "12345678000100",
+      "razao_social": "EMPRESA TESTE LTDA",
+      "certificado": "C:\\certificados\\empresa1.pfx",
+      "senha": "123456",
+      "validade_inicio": "2025-01-01",
+      "validade_fim": "2026-01-01"
+    }
+  ]
+}
