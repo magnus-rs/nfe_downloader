@@ -7,7 +7,9 @@
       "certificado": "C:\\certificados\\empresa1.pfx",
       "senha": "123456",
       "validade_inicio": "2025-01-01",
-      "validade_fim": "2026-01-01"
+      "validade_fim": "2026-01-01",
+	  "email": "controle@hoteisatlantico.com.br",
+	  "tipo": "A1"
     }
   ]
 }

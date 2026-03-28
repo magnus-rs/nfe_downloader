@@ -24,11 +24,15 @@ type
     Label5: TLabel;
     EditSenha: TMaskEdit;
     ACBrNFe1: TACBrNFe;
+    Label6: TLabel;
+    EditEmail: TEdit;
     procedure BtnImportarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     procedure CarregarCertificado(const Caminho: string);
     procedure PreencherDados;
     procedure SalvarEmpresa;
+    procedure ConfigurarACBr;
     { Private declarations }
   public
     { Public declarations }
@@ -41,22 +45,54 @@ implementation
 
 {$R *.dfm}
 
+procedure TForm_Certificados.ConfigurarACBr;
+begin
+  SetDllDirectory(PChar(ExtractFilePath(Application.ExeName) + 'openssl'));
+
+  with ACBrNFe1.Configuracoes do
+  begin
+    Geral.SSLLib := libOpenSSL;
+    Geral.SSLCryptLib := cryOpenSSL;
+    Geral.SSLHttpLib := httpOpenSSL;
+    Geral.SSLXmlSignLib := xsLibXml2;
+
+    Arquivos.PathSchemas :=
+      ExtractFilePath(Application.ExeName) + 'Schemas\NFe\';
+
+  end;
+
+end;
+
+procedure TForm_certificados.FormCreate(Sender: TObject);
+begin
+   ConfigurarACBr;
+end;
+
 procedure TForm_certificados.BtnImportarClick(Sender: TObject);
 begin
   OpenDialog1.Filter := 'Certificado (*.pfx)|*.pfx';
-
   if OpenDialog1.Execute then
   begin
     EditArquivo.Text := OpenDialog1.FileName;
-
     CarregarCertificado(OpenDialog1.FileName);
+    SalvarEmpresa;
   end;
 end;
 
 procedure TForm_certificados.CarregarCertificado(const Caminho: string);
 var
   Senha: string;
+  Email: string;
 begin
+  // Usa email digitado ou solicita
+  Email := EditEmail.Text;
+
+  if Email = '' then
+     Email := InputBox('Email', 'Digite o Email do certificado:', '');
+
+  if Email = '' then
+     Exit;
+
   // Usa senha digitada ou solicita
   Senha := EditSenha.Text;
 
@@ -98,6 +134,54 @@ begin
   DataFim := ACBrNFe1.SSL.CertDataVenc;
 
   EditValidade.Text := DateToStr(DataFim);
+end;
+
+procedure TForm_certificados.SalvarEmpresa;
+var
+  Service: TEmpresaService;
+  Empresa: TEmpresa;
+begin
+  if EditCNPJ.Text = '' then
+  begin
+    ShowMessage('CNPJ não informado.');
+    Exit;
+  end;
+
+  Service := TEmpresaService.Create;
+  try
+    Service.Carregar;
+
+    if Assigned(Service.Buscar(EditCNPJ.Text)) then
+    begin
+      ShowMessage('Empresa já cadastrada.');
+      Exit;
+    end;
+
+    Empresa := TEmpresa.Create;
+    Empresa.CNPJ := EditCNPJ.Text;
+    Empresa.RazaoSocial := EditNome.Text;
+    Empresa.NomeFantasia := EditNome.Text;
+    Empresa.CertificadoPath := EditArquivo.Text;
+    Empresa.CertificadoSenha := EditSenha.Text;
+    Empresa.ValidadeInicio := ACBrNFe1.SSL.DadosCertificado.DataInicioValidade; // se não tiver início, pode ajustar depois
+    Empresa.ValidadeFim := StrToDateDef(EditValidade.Text, Now);
+    Empresa.Email := EditEmail.Text;
+
+    if ACBrNFe1.SSL.DadosCertificado.Tipo = tPCA1 then
+      Empresa.Tipo :=  'A1'
+    else if ACBrNFe1.SSL.DadosCertificado.Tipo = tPCA3 then
+      Empresa.Tipo := 'A3'
+    else
+      Empresa.Tipo := 'Desconhecido';
+
+    Service.Adicionar(Empresa);
+    Service.Salvar;
+
+    ShowMessage('Empresa salva com sucesso!');
+
+  finally
+    Service.Free;
+  end;
 end;
 
 end.

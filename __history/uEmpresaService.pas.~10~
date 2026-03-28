@@ -156,8 +156,6 @@ begin
   Result.AddPair('CertificadoSenha', Emp.CertificadoSenha);
   Result.AddPair('ValidadeInicio', DateToISO8601(Emp.ValidadeInicio));
   Result.AddPair('ValidadeFim', DateToISO8601(Emp.ValidadeFim));
-  Result.AddPair('Email',Emp.Email);
-  Result.AddPair('Tipo',Emp.Tipo);
 end;
 
 function TEmpresaService.JSONToEmpresa(Obj: TJSONObject): TEmpresa;
@@ -182,9 +180,6 @@ begin
   StrData := Obj.GetValue<string>('ValidadeFim', '');
   if StrData <> '' then
     Result.ValidadeFim := ISO8601ToDate(StrData);
-
-  Result.Email := Obj.GetValue<string>('Email');
-  Result.Tipo := Obj.GetValue<string>('Tipo');
 
 end;
 

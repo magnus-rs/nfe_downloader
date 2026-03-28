@@ -15,8 +15,6 @@ type
     FCertificadoSenha: string;
     FValidadeInicio: TDate;
     FValidadeFim: TDate;
-    FEmail: string;
-    FTipo: string;
   public
     property CNPJ: string read FCNPJ write FCNPJ;
     property RazaoSocial: string read FRazaoSocial write FRazaoSocial;
@@ -25,8 +23,6 @@ type
     property CertificadoSenha: string read FCertificadoSenha write FCertificadoSenha;
     property ValidadeInicio: TDate read FValidadeInicio write FValidadeInicio;
     property ValidadeFim: TDate read FValidadeFim write FValidadeFim;
-    property Email: string read FEmail write FEmail;
-    property Tipo: string read FTipo write FTipo;
   end;
 
 implementation

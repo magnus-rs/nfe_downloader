@@ -572,7 +572,6 @@ object Form_Principal: TForm_Principal
     Height = 29
     Caption = 'ToolBar1'
     TabOrder = 0
-    ExplicitWidth = 1209
     object ToolButton5: TToolButton
       Left = 0
       Top = 0
@@ -618,8 +617,6 @@ object Form_Principal: TForm_Principal
     Width = 1304
     Height = 19
     Panels = <>
-    ExplicitTop = 710
-    ExplicitWidth = 1209
   end
   object Panel1: TPanel
     Left = 0
@@ -629,7 +626,6 @@ object Form_Principal: TForm_Principal
     Align = alLeft
     Caption = 'Panel1'
     TabOrder = 2
-    ExplicitHeight = 681
     object ToolBar2: TToolBar
       Left = 1
       Top = 1
@@ -670,7 +666,6 @@ object Form_Principal: TForm_Principal
       Align = alClient
       Indent = 19
       TabOrder = 1
-      ExplicitHeight = 657
     end
   end
   object Panel2: TPanel
@@ -681,8 +676,6 @@ object Form_Principal: TForm_Principal
     Align = alRight
     Caption = 'Panel2'
     TabOrder = 3
-    ExplicitLeft = 1033
-    ExplicitHeight = 681
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -701,7 +694,6 @@ object Form_Principal: TForm_Principal
       Align = alClient
       Indent = 19
       TabOrder = 1
-      ExplicitHeight = 657
     end
   end
   object Panel4: TPanel
@@ -712,8 +704,6 @@ object Form_Principal: TForm_Principal
     Align = alClient
     Caption = 'Panel4'
     TabOrder = 4
-    ExplicitWidth = 842
-    ExplicitHeight = 681
     object Panel5: TPanel
       Left = 1
       Top = 1
@@ -722,14 +712,13 @@ object Form_Principal: TForm_Principal
       Align = alTop
       Caption = 'Panel5'
       TabOrder = 0
-      ExplicitWidth = 840
     end
     object PageControl1: TPageControl
       Left = 1
       Top = 42
       Width = 935
       Height = 658
-      ActivePage = TabSheet3
+      ActivePage = TabSheet1
       Align = alClient
       TabOrder = 1
       object TabSheet1: TTabSheet
@@ -742,6 +731,7 @@ object Form_Principal: TForm_Principal
       object TabSheet3: TTabSheet
         Caption = 'Certificados'
         ImageIndex = 2
+        TabVisible = False
         object Panel6: TPanel
           Left = 0
           Top = 0
@@ -749,7 +739,6 @@ object Form_Principal: TForm_Principal
           Height = 41
           Align = alTop
           TabOrder = 0
-          ExplicitWidth = 832
           object Label1: TLabel
             Left = 19
             Top = 10
@@ -779,6 +768,7 @@ object Form_Principal: TForm_Principal
             Height = 25
             Caption = 'Remover Certificado'
             TabOrder = 1
+            OnClick = BTN_Remover_CertificadoClick
           end
           object BTN_Atualizar_Lista: TButton
             Left = 664
@@ -787,6 +777,7 @@ object Form_Principal: TForm_Principal
             Height = 25
             Caption = 'Atualizar Lista'
             TabOrder = 2
+            OnClick = BTN_Atualizar_ListaClick
           end
         end
         object StringGrid1: TStringGrid
@@ -799,7 +790,6 @@ object Form_Principal: TForm_Principal
           FixedCols = 0
           Options = [goFixedVertLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
           TabOrder = 1
-          ExplicitLeft = -1
           ColWidths = (
             257
             275

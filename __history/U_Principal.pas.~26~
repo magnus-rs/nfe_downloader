@@ -130,11 +130,9 @@ begin
     Service.Free;
   end;
 end;
-
 procedure TForm_Principal.BTN_Importar_CertificadoClick(Sender: TObject);
 begin
     Form_Certificados.ShowModal;
-    BTN_Atualizar_ListaClick(Sender);
 end;
 
 procedure TForm_Principal.BTN_Remover_CertificadoClick(Sender: TObject);
@@ -191,16 +189,12 @@ begin
 end;
 procedure TForm_Principal.Certificados1Click(Sender: TObject);
 begin
-    if tabsheet3.TabVisible then begin
-       tabsheet3.TabVisible := False;
-       pagecontrol1.TabIndex :=0;
-    end
+    if tabsheet3.TabVisible then
+       tabsheet3.TabVisible := False
     else begin
        tabsheet3.TabVisible := True;
        pagecontrol1.TabIndex := 2;
     end;
-    BTN_Atualizar_ListaClick(Sender);
-
 end;
 
 procedure TForm_Principal.ConfigurarACBr;

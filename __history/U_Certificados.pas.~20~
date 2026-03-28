@@ -28,7 +28,6 @@ type
     EditEmail: TEdit;
     procedure BtnImportarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   private
     procedure CarregarCertificado(const Caminho: string);
     procedure PreencherDados;
@@ -69,16 +68,6 @@ begin
    ConfigurarACBr;
 end;
 
-procedure TForm_certificados.FormShow(Sender: TObject);
-begin
-   EditCNPJ.text := '';
-   EditNome.Text := '';
-   EditArquivo.Text := '';
-   EditValidade.Text := '';
-   EditSenha.Text := '';
-   EditEmail.Text := '';
-end;
-
 procedure TForm_certificados.BtnImportarClick(Sender: TObject);
 begin
   OpenDialog1.Filter := 'Certificado (*.pfx)|*.pfx';
@@ -93,17 +82,7 @@ end;
 procedure TForm_certificados.CarregarCertificado(const Caminho: string);
 var
   Senha: string;
-  Email: string;
 begin
-  // Usa email digitado ou solicita
-  Email := EditEmail.Text;
-
-  if Email = '' then
-     Email := InputBox('Email', 'Digite o Email do certificado:', '');
-
-  if Email = '' then
-     Exit;
-
   // Usa senha digitada ou solicita
   Senha := EditSenha.Text;
 
@@ -122,7 +101,6 @@ begin
     ACBrNFe1.SSL.CarregarCertificado;
 
     EditSenha.Text := Senha;
-    EditEmail.Text := Email;
 
     PreencherDados;
 

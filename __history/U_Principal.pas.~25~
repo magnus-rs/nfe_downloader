@@ -116,9 +116,9 @@ begin
         Status := 'Vencido';
 
       StringGrid1.Cells[0, I + 1] := Emp.RazaoSocial;
-      StringGrid1.Cells[1, I + 1] := Emp.Email; // email
+      StringGrid1.Cells[1, I + 1] := ''; // email
       StringGrid1.Cells[2, I + 1] := Emp.CNPJ;
-      StringGrid1.Cells[3, I + 1] := Emp.Tipo;
+      StringGrid1.Cells[3, I + 1] := 'A1';
       StringGrid1.Cells[4, I + 1] := DateToStr(Emp.ValidadeFim);
       StringGrid1.Cells[5, I + 1] := Status;
       StringGrid1.Cells[6, I + 1] := IntToStr(DiasRestantes) + ' dias';
@@ -130,11 +130,9 @@ begin
     Service.Free;
   end;
 end;
-
 procedure TForm_Principal.BTN_Importar_CertificadoClick(Sender: TObject);
 begin
     Form_Certificados.ShowModal;
-    BTN_Atualizar_ListaClick(Sender);
 end;
 
 procedure TForm_Principal.BTN_Remover_CertificadoClick(Sender: TObject);
@@ -191,16 +189,12 @@ begin
 end;
 procedure TForm_Principal.Certificados1Click(Sender: TObject);
 begin
-    if tabsheet3.TabVisible then begin
-       tabsheet3.TabVisible := False;
-       pagecontrol1.TabIndex :=0;
-    end
+    if tabsheet3.TabVisible then
+       tabsheet3.TabVisible := False
     else begin
        tabsheet3.TabVisible := True;
        pagecontrol1.TabIndex := 2;
     end;
-    BTN_Atualizar_ListaClick(Sender);
-
 end;
 
 procedure TForm_Principal.ConfigurarACBr;

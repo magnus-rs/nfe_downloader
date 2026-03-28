@@ -13,7 +13,6 @@ object Form_certificados: TForm_certificados
   OldCreateOrder = False
   Position = poDesktopCenter
   OnCreate = FormCreate
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -32,13 +31,13 @@ object Form_certificados: TForm_certificados
   end
   object Bevel1: TBevel
     Left = 56
-    Top = 153
+    Top = 143
     Width = 545
     Height = 97
   end
   object Label3: TLabel
     Left = 72
-    Top = 169
+    Top = 159
     Width = 111
     Height = 13
     Caption = 'Arquivo de Certificado:'
@@ -56,13 +55,6 @@ object Form_certificados: TForm_certificados
     Width = 34
     Height = 13
     Caption = 'Senha:'
-  end
-  object Label6: TLabel
-    Left = 40
-    Top = 112
-    Width = 28
-    Height = 13
-    Caption = 'Email:'
   end
   object EditCNPJ: TEdit
     Left = 120
@@ -82,7 +74,7 @@ object Form_certificados: TForm_certificados
   end
   object EditArquivo: TEdit
     Left = 72
-    Top = 185
+    Top = 175
     Width = 513
     Height = 21
     TabOrder = 2
@@ -90,7 +82,7 @@ object Form_certificados: TForm_certificados
   end
   object BtnImportar: TButton
     Left = 200
-    Top = 212
+    Top = 202
     Width = 241
     Height = 25
     Caption = 'Importar arquivo de certificado A1'
@@ -114,17 +106,10 @@ object Form_certificados: TForm_certificados
     TabOrder = 5
     Text = ''
   end
-  object EditEmail: TEdit
-    Left = 120
-    Top = 109
-    Width = 369
-    Height = 21
-    TabOrder = 6
-  end
   object OpenDialog1: TOpenDialog
     Filter = 'Arquivo .pfx|*.pfx|Todos os arquivos|*.*'
     Left = 448
-    Top = 218
+    Top = 208
   end
   object ACBrNFe1: TACBrNFe
     Configuracoes.Geral.SSLLib = libNone
@@ -138,6 +123,6 @@ object Form_certificados: TForm_certificados
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
     Left = 120
-    Top = 122
+    Top = 112
   end
 end

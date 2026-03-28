@@ -123,7 +123,6 @@ begin
 
     EditSenha.Text := Senha;
     EditEmail.Text := Email;
-
     PreencherDados;
 
   except

@@ -122,7 +122,6 @@ begin
     ACBrNFe1.SSL.CarregarCertificado;
 
     EditSenha.Text := Senha;
-    EditEmail.Text := Email;
 
     PreencherDados;
 
