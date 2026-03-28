@@ -1,4 +1,4 @@
-unit uEmpresaService;
+﻿unit uEmpresaService;
 
 interface
 
@@ -39,7 +39,7 @@ implementation
 
 constructor TEmpresaService.Create(const AArquivo: string);
 begin
-  FLista := TObjectList<TEmpresa>.Create(True); // True = gerencia mem�ria
+  FLista := TObjectList<TEmpresa>.Create(True); // True = gerencia memória
   FArquivo := AArquivo;
 end;
 
@@ -52,7 +52,7 @@ end;
 procedure TEmpresaService.Adicionar(Emp: TEmpresa);
 begin
   if Assigned(Buscar(Emp.CNPJ)) then
-    raise Exception.Create('Empresa j� cadastrada.');
+    raise Exception.Create('Empresa já cadastrada.');
 
   FLista.Add(Emp);
 end;
@@ -103,6 +103,7 @@ end;
 procedure TEmpresaService.Carregar;
 var
   JSONStr: string;
+  JSONValue: TJSONValue;
   JSONArray: TJSONArray;
   Obj: TJSONObject;
   I: Integer;
@@ -112,17 +113,36 @@ begin
   if not FileExists(FArquivo) then
     Exit;
 
-  JSONStr := TFile.ReadAllText(FArquivo);
-  JSONArray := TJSONObject.ParseJSONValue(JSONStr) as TJSONArray;
+  JSONStr := TFile.ReadAllText(FArquivo).Trim;
+
+  // ️ Arquivo vazio
+  if JSONStr = '' then
+    Exit;
+
+  JSONValue := TJSONObject.ParseJSONValue(JSONStr);
+
+  // ️ JSON inválido
+  if not Assigned(JSONValue) then
+    Exit;
 
   try
+    // ️ Verifica se é array
+    if not (JSONValue is TJSONArray) then
+      Exit;
+
+    JSONArray := JSONValue as TJSONArray;
+
     for I := 0 to JSONArray.Count - 1 do
     begin
-      Obj := JSONArray.Items[I] as TJSONObject;
-      FLista.Add(JSONToEmpresa(Obj));
+      if JSONArray.Items[I] is TJSONObject then
+      begin
+        Obj := JSONArray.Items[I] as TJSONObject;
+        FLista.Add(JSONToEmpresa(Obj));
+      end;
     end;
+
   finally
-    JSONArray.Free;
+    JSONValue.Free;
   end;
 end;
 

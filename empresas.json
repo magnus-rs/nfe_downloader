@@ -3,6 +3,7 @@
     {
       "cnpj": "12345678000100",
       "razao_social": "EMPRESA TESTE LTDA",
+      "nome_fantasia": "EMPRESA TESTE",
       "certificado": "C:\\certificados\\empresa1.pfx",
       "senha": "123456",
       "validade_inicio": "2025-01-01",

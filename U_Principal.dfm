@@ -2,8 +2,8 @@ object Form_Principal: TForm_Principal
   Left = 0
   Top = 0
   Caption = 'NFe Downloader'
-  ClientHeight = 729
-  ClientWidth = 1209
+  ClientHeight = 749
+  ClientWidth = 1304
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -551,15 +551,15 @@ object Form_Principal: TForm_Principal
   object Splitter1: TSplitter
     Left = 185
     Top = 29
-    Height = 681
+    Height = 701
     ExplicitLeft = 224
     ExplicitTop = 32
     ExplicitHeight = 100
   end
   object Splitter2: TSplitter
-    Left = 1030
+    Left = 1125
     Top = 29
-    Height = 681
+    Height = 701
     Align = alRight
     ExplicitLeft = 296
     ExplicitTop = 32
@@ -568,10 +568,11 @@ object Form_Principal: TForm_Principal
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 1209
+    Width = 1304
     Height = 29
     Caption = 'ToolBar1'
     TabOrder = 0
+    ExplicitWidth = 1209
     object ToolButton5: TToolButton
       Left = 0
       Top = 0
@@ -613,19 +614,22 @@ object Form_Principal: TForm_Principal
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 710
-    Width = 1209
+    Top = 730
+    Width = 1304
     Height = 19
     Panels = <>
+    ExplicitTop = 710
+    ExplicitWidth = 1209
   end
   object Panel1: TPanel
     Left = 0
     Top = 29
     Width = 185
-    Height = 681
+    Height = 701
     Align = alLeft
     Caption = 'Panel1'
     TabOrder = 2
+    ExplicitHeight = 681
     object ToolBar2: TToolBar
       Left = 1
       Top = 1
@@ -662,20 +666,23 @@ object Form_Principal: TForm_Principal
       Left = 1
       Top = 23
       Width = 183
-      Height = 657
+      Height = 677
       Align = alClient
       Indent = 19
       TabOrder = 1
+      ExplicitHeight = 657
     end
   end
   object Panel2: TPanel
-    Left = 1033
+    Left = 1128
     Top = 29
     Width = 176
-    Height = 681
+    Height = 701
     Align = alRight
     Caption = 'Panel2'
     TabOrder = 3
+    ExplicitLeft = 1033
+    ExplicitHeight = 681
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -690,34 +697,38 @@ object Form_Principal: TForm_Principal
       Left = 1
       Top = 23
       Width = 174
-      Height = 657
+      Height = 677
       Align = alClient
       Indent = 19
       TabOrder = 1
+      ExplicitHeight = 657
     end
   end
   object Panel4: TPanel
     Left = 188
     Top = 29
-    Width = 842
-    Height = 681
+    Width = 937
+    Height = 701
     Align = alClient
     Caption = 'Panel4'
     TabOrder = 4
+    ExplicitWidth = 842
+    ExplicitHeight = 681
     object Panel5: TPanel
       Left = 1
       Top = 1
-      Width = 840
+      Width = 935
       Height = 41
       Align = alTop
       Caption = 'Panel5'
       TabOrder = 0
+      ExplicitWidth = 840
     end
     object PageControl1: TPageControl
       Left = 1
       Top = 42
-      Width = 840
-      Height = 638
+      Width = 935
+      Height = 658
       ActivePage = TabSheet3
       Align = alClient
       TabOrder = 1
@@ -734,10 +745,11 @@ object Form_Principal: TForm_Principal
         object Panel6: TPanel
           Left = 0
           Top = 0
-          Width = 832
+          Width = 927
           Height = 41
           Align = alTop
           TabOrder = 0
+          ExplicitWidth = 832
           object Label1: TLabel
             Left = 19
             Top = 10
@@ -758,6 +770,7 @@ object Form_Principal: TForm_Principal
             Height = 25
             Caption = 'Importar Certificado'
             TabOrder = 0
+            OnClick = BTN_Importar_CertificadoClick
           end
           object BTN_Remover_Certificado: TButton
             Left = 488
@@ -779,13 +792,14 @@ object Form_Principal: TForm_Principal
         object StringGrid1: TStringGrid
           Left = 0
           Top = 41
-          Width = 832
-          Height = 569
+          Width = 927
+          Height = 589
           Align = alClient
           ColCount = 9
           FixedCols = 0
           Options = [goFixedVertLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
           TabOrder = 1
+          ExplicitLeft = -1
           ColWidths = (
             257
             275
@@ -815,6 +829,7 @@ object Form_Principal: TForm_Principal
       Caption = 'Configura'#231#245'es'
       object Certificados1: TMenuItem
         Caption = 'Certificados'
+        OnClick = Certificados1Click
       end
     end
   end

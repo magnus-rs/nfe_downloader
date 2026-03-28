@@ -1,9 +1,9 @@
 object Form_certificados: TForm_certificados
   Left = 0
   Top = 0
-  Caption = 'Form_certificados'
-  ClientHeight = 323
-  ClientWidth = 1206
+  Caption = 'Cadastro de Certificados / Empresas'
+  ClientHeight = 272
+  ClientWidth = 660
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,25 +11,118 @@ object Form_certificados: TForm_certificados
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 1206
-    Height = 41
-    Align = alTop
+  object Label1: TLabel
+    Left = 40
+    Top = 19
+    Width = 29
+    Height = 13
+    Caption = 'CNPJ:'
+  end
+  object Label2: TLabel
+    Left = 40
+    Top = 48
+    Width = 31
+    Height = 13
+    Caption = 'Nome:'
+  end
+  object Bevel1: TBevel
+    Left = 56
+    Top = 143
+    Width = 545
+    Height = 97
+  end
+  object Label3: TLabel
+    Left = 72
+    Top = 159
+    Width = 111
+    Height = 13
+    Caption = 'Arquivo de Certificado:'
+  end
+  object Label4: TLabel
+    Left = 40
+    Top = 80
+    Width = 44
+    Height = 13
+    Caption = 'Validade:'
+  end
+  object Label5: TLabel
+    Left = 328
+    Top = 80
+    Width = 34
+    Height = 13
+    Caption = 'Senha:'
+  end
+  object EditCNPJ: TEdit
+    Left = 120
+    Top = 16
+    Width = 225
+    Height = 21
+    ReadOnly = True
     TabOrder = 0
-    ExplicitLeft = 192
-    ExplicitTop = 40
-    ExplicitWidth = 185
-    object Btn_Adicionar: TButton
-      Left = 48
-      Top = 9
-      Width = 193
-      Height = 25
-      Caption = 'Btn_Adicionar'
-      TabOrder = 0
-    end
+  end
+  object EditNome: TEdit
+    Left = 120
+    Top = 45
+    Width = 465
+    Height = 21
+    ReadOnly = True
+    TabOrder = 1
+  end
+  object EditArquivo: TEdit
+    Left = 72
+    Top = 175
+    Width = 513
+    Height = 21
+    TabOrder = 2
+    Text = 'Arquivo.pfx'
+  end
+  object BtnImportar: TButton
+    Left = 200
+    Top = 202
+    Width = 241
+    Height = 25
+    Caption = 'Importar arquivo de certificado A1'
+    TabOrder = 3
+    OnClick = BtnImportarClick
+  end
+  object EditValidade: TEdit
+    Left = 120
+    Top = 77
+    Width = 121
+    Height = 21
+    ReadOnly = True
+    TabOrder = 4
+  end
+  object EditSenha: TMaskEdit
+    Left = 392
+    Top = 77
+    Width = 167
+    Height = 21
+    PasswordChar = '*'
+    TabOrder = 5
+    Text = ''
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 'Arquivo .pfx|*.pfx|Todos os arquivos|*.*'
+    Left = 448
+    Top = 208
+  end
+  object ACBrNFe1: TACBrNFe
+    Configuracoes.Geral.SSLLib = libNone
+    Configuracoes.Geral.SSLCryptLib = cryNone
+    Configuracoes.Geral.SSLHttpLib = httpNone
+    Configuracoes.Geral.SSLXmlSignLib = xsNone
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.RespTec.IdCSRT = 0
+    Left = 120
+    Top = 112
   end
 end

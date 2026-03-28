@@ -51,6 +51,8 @@ type
     BTN_Atualizar_Lista: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ConfigurarACBr;
+    procedure Certificados1Click(Sender: TObject);
+    procedure BTN_Importar_CertificadoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -64,6 +66,8 @@ implementation
 
 {$R *.dfm}
 
+uses U_Certificados;
+
 procedure TForm_Principal.FormCreate(Sender: TObject);
 begin
   ConfigurarACBr;
@@ -76,6 +80,21 @@ begin
   StringGrid1.Cells[6,0] := 'Tempo Restante';
   StringGrid1.Cells[7,0] := 'Local';
   StringGrid1.Cells[8,0] := 'Ações';
+end;
+
+procedure TForm_Principal.BTN_Importar_CertificadoClick(Sender: TObject);
+begin
+    Form_Certificados.ShowModal;
+end;
+
+procedure TForm_Principal.Certificados1Click(Sender: TObject);
+begin
+    if tabsheet3.TabVisible then
+       tabsheet3.TabVisible := False
+    else begin
+       tabsheet3.TabVisible := True;
+       pagecontrol1.TabIndex := 2;
+    end;
 end;
 
 procedure TForm_Principal.ConfigurarACBr;

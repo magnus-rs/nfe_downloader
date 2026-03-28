@@ -1,0 +1,89 @@
+unit U_Certificados;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Mask, ACBrNFe, ACBrDFeSSL, System.DateUtils, uEmpresa, uEmpresaService,
+  ACBrBase, ACBrDFe;
+
+type
+  TForm_certificados = class(TForm)
+    EditCNPJ: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    EditNome: TEdit;
+    Bevel1: TBevel;
+    Label3: TLabel;
+    EditArquivo: TEdit;
+    BtnImportar: TButton;
+    OpenDialog1: TOpenDialog;
+    Label4: TLabel;
+    EditValidade: TEdit;
+    Label5: TLabel;
+    EditSenha: TMaskEdit;
+    ACBrNFe1: TACBrNFe;
+    procedure BtnImportarClick(Sender: TObject);
+  private
+    procedure CarregarCertificado(const Caminho: string);
+    procedure PreencherDados;
+    procedure SalvarEmpresa;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form_certificados: TForm_certificados;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm_certificados.BtnImportarClick(Sender: TObject);
+begin
+  OpenDialog1.Filter := 'Certificado (*.pfx)|*.pfx';
+
+  if OpenDialog1.Execute then
+  begin
+    EditArquivo.Text := OpenDialog1.FileName;
+
+    CarregarCertificado(OpenDialog1.FileName);
+  end;
+end;
+
+procedure TForm_certificados.CarregarCertificado(const Caminho: string);
+var
+  Senha: string;
+begin
+  // Usa senha digitada ou solicita
+  Senha := EditSenha.Text;
+
+  if Senha = '' then
+    Senha := InputBox('Certificado', 'Digite a senha do certificado:', '');
+
+  if Senha = '' then
+    Exit;
+
+  try
+    Screen.Cursor := crHourGlass;
+
+    ACBrNFe1.Configuracoes.Certificados.ArquivoPFX := Caminho;
+    ACBrNFe1.Configuracoes.Certificados.Senha := Senha;
+
+    ACBrNFe1.SSL.CarregarCertificado;
+
+    EditSenha.Text := Senha;
+
+    PreencherDados;
+
+  except
+    on E: Exception do
+      ShowMessage('Erro ao carregar certificado: ' + E.Message);
+  end;
+
+  Screen.Cursor := crDefault;
+end;
+
+end.

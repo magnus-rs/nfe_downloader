@@ -1,0 +1,96 @@
+object Form_certificados: TForm_certificados
+  Left = 0
+  Top = 0
+  Caption = 'Cadastro de Certificados / Empresas'
+  ClientHeight = 272
+  ClientWidth = 660
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 40
+    Top = 19
+    Width = 29
+    Height = 13
+    Caption = 'CNPJ:'
+  end
+  object Label2: TLabel
+    Left = 40
+    Top = 48
+    Width = 31
+    Height = 13
+    Caption = 'Nome:'
+  end
+  object Bevel1: TBevel
+    Left = 56
+    Top = 143
+    Width = 545
+    Height = 97
+  end
+  object Label3: TLabel
+    Left = 72
+    Top = 159
+    Width = 111
+    Height = 13
+    Caption = 'Arquivo de Certificado:'
+  end
+  object Label4: TLabel
+    Left = 40
+    Top = 80
+    Width = 44
+    Height = 13
+    Caption = 'Validade:'
+  end
+  object EditCNPJ: TEdit
+    Left = 120
+    Top = 16
+    Width = 225
+    Height = 21
+    ReadOnly = True
+    TabOrder = 0
+  end
+  object EditNome: TEdit
+    Left = 120
+    Top = 45
+    Width = 465
+    Height = 21
+    ReadOnly = True
+    TabOrder = 1
+  end
+  object EditArquivo: TEdit
+    Left = 72
+    Top = 175
+    Width = 513
+    Height = 21
+    TabOrder = 2
+    Text = 'Arquivo.pfx'
+  end
+  object BtnImportar: TButton
+    Left = 200
+    Top = 202
+    Width = 241
+    Height = 25
+    Caption = 'Importar arquivo de certificado A1'
+    TabOrder = 3
+  end
+  object EditValidade: TEdit
+    Left = 120
+    Top = 77
+    Width = 121
+    Height = 21
+    ReadOnly = True
+    TabOrder = 4
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 'Arquivo .pfx|*.pfx|Todos os arquivos|*.*'
+    Left = 448
+    Top = 208
+  end
+end
