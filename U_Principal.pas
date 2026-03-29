@@ -1,4 +1,4 @@
-unit U_Principal;
+﻿unit U_Principal;
 
 interface
 
@@ -57,6 +57,7 @@ type
     procedure BTN_Remover_CertificadoClick(Sender: TObject);
     procedure BTN_Atualizar_ListaClick(Sender: TObject);
   private
+    procedure CarregarTreeViewEmpresas;
     { Private declarations }
   public
     { Public declarations }
@@ -82,7 +83,64 @@ begin
   StringGrid1.Cells[5,0] := 'Status';
   StringGrid1.Cells[6,0] := 'Tempo Restante';
   StringGrid1.Cells[7,0] := 'Local';
-  StringGrid1.Cells[8,0] := 'A��es';
+  StringGrid1.Cells[8,0] := 'Ações';
+  CarregarTreeViewEmpresas;
+  Treeview1.FullCollapse;
+end;
+
+procedure TForm_Principal.CarregarTreeViewEmpresas;
+var
+  Service: TEmpresaService;
+  Lista: TObjectList<TEmpresa>;
+  Emp: TEmpresa;
+  I: Integer;
+  NodeEmpresa, NodeCert, NodeNFe: TTreeNode;
+begin
+  TreeView1.Items.Clear;
+
+  Service := TEmpresaService.Create;
+  try
+    Service.Carregar;
+    Lista := Service.Listar;
+
+    for I := 0 to Lista.Count - 1 do
+    begin
+      Emp := Lista[I];
+
+      //  NÍVEL 1 → Empresa
+      NodeEmpresa := TreeView1.Items.Add(nil,
+        Format('%.4d : %s', [I + 1, Emp.RazaoSocial]));
+
+      //  CNPJ
+      TreeView1.Items.AddChild(NodeEmpresa,
+        'CNPJ: ' + Emp.CNPJ);
+
+      //  CERTIFICADO A1
+      NodeCert := TreeView1.Items.AddChild(NodeEmpresa,
+        'CERTIFICADO A1');
+
+      TreeView1.Items.AddChild(NodeCert,
+        'data de início: ' + DateToStr(Emp.ValidadeInicio));
+
+      TreeView1.Items.AddChild(NodeCert,
+        'data de fim: ' + DateToStr(Emp.ValidadeFim));
+
+      //  DADOS DE NFE
+      NodeNFe := TreeView1.Items.AddChild(NodeEmpresa,
+        'Dados de NFe');
+
+      TreeView1.Items.AddChild(NodeNFe,
+        'última procura: (não definido)');
+
+      TreeView1.Items.AddChild(NodeNFe,
+        'último nsu: (não definido)');
+    end;
+
+  finally
+    Service.Free;
+  end;
+
+  TreeView1.FullExpand;
 end;
 
 procedure TForm_Principal.BTN_Atualizar_ListaClick(Sender: TObject);
@@ -99,7 +157,7 @@ begin
     Service.Carregar;
     Lista := Service.Listar;
 
-    // limpa mantendo cabe�alho
+    // limpa mantendo cabeçalho
     StringGrid1.RowCount := 1;
 
     for I := 0 to Lista.Count - 1 do
@@ -135,6 +193,8 @@ procedure TForm_Principal.BTN_Importar_CertificadoClick(Sender: TObject);
 begin
     Form_Certificados.ShowModal;
     BTN_Atualizar_ListaClick(Sender);
+    CarregarTreeViewEmpresas;
+    Treeview1.FullCollapse;
 end;
 
 procedure TForm_Principal.BTN_Remover_CertificadoClick(Sender: TObject);
@@ -162,11 +222,11 @@ begin
 
     if not Assigned(Empresa) then
     begin
-      ShowMessage('Certificado n�o encontrado.');
+      ShowMessage('Certificado não encontrado.');
       Exit;
     end;
 
-    Senha := InputBox('Confirma��o', 'Digite a senha do certificado:', '');
+    Senha := InputBox('Confirmação', 'Digite a senha do certificado:', '');
 
     if Senha <> Empresa.CertificadoSenha then
     begin
@@ -188,7 +248,11 @@ begin
   finally
     Service.Free;
   end;
+  CarregarTreeViewEmpresas;
+  Treeview1.FullCollapse;
+
 end;
+
 procedure TForm_Principal.Certificados1Click(Sender: TObject);
 begin
     if tabsheet3.TabVisible then begin
