@@ -158,6 +158,8 @@ begin
   Result.AddPair('ValidadeFim', DateToISO8601(Emp.ValidadeFim));
   Result.AddPair('Email',Emp.Email);
   Result.AddPair('Tipo',Emp.Tipo);
+  Result.AddPair('UltimaConsulta', DateToISO8601(Emp.UltimaConsulta));
+  Result.AddPair('UltimoNSU', Emp.UltimoNSU);
 end;
 
 function TEmpresaService.JSONToEmpresa(Obj: TJSONObject): TEmpresa;
@@ -185,6 +187,12 @@ begin
 
   Result.Email := Obj.GetValue<string>('Email');
   Result.Tipo := Obj.GetValue<string>('Tipo');
+
+  StrData := Obj.GetValue<string>('UltimaConsulta', '');
+  if StrData <> '' then
+    Result.UltimaConsulta := ISO8601ToDate(StrData);
+
+  Result.UltimoNSU := Obj.GetValue<string>('UltimoNSU', '');
 
 end;
 

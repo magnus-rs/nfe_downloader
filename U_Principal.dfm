@@ -632,7 +632,6 @@ object Form_Principal: TForm_Principal
       Height = 22
       Caption = 'ToolBar2'
       TabOrder = 0
-      ExplicitWidth = 183
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -666,7 +665,6 @@ object Form_Principal: TForm_Principal
       Align = alClient
       Indent = 19
       TabOrder = 1
-      ExplicitWidth = 184
     end
   end
   object Panel2: TPanel
@@ -686,7 +684,6 @@ object Form_Principal: TForm_Principal
       BevelOuter = bvNone
       Caption = 'Filtros'
       TabOrder = 0
-      ExplicitWidth = 174
     end
     object TreeView2: TTreeView
       Left = 1
@@ -696,7 +693,6 @@ object Form_Principal: TForm_Principal
       Align = alClient
       Indent = 19
       TabOrder = 1
-      ExplicitWidth = 174
     end
   end
   object Panel4: TPanel
@@ -707,8 +703,6 @@ object Form_Principal: TForm_Principal
     Align = alClient
     Caption = 'Panel4'
     TabOrder = 4
-    ExplicitLeft = 248
-    ExplicitWidth = 877
     object Panel5: TPanel
       Left = 1
       Top = 1
@@ -717,7 +711,6 @@ object Form_Principal: TForm_Principal
       Align = alTop
       Caption = 'Panel5'
       TabOrder = 0
-      ExplicitWidth = 935
     end
     object PageControl1: TPageControl
       Left = 1
@@ -727,7 +720,6 @@ object Form_Principal: TForm_Principal
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 1
-      ExplicitWidth = 935
       object TabSheet1: TTabSheet
         Caption = 'Emitidas por terceiros'
       end

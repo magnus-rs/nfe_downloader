@@ -95,6 +95,8 @@ var
   Emp: TEmpresa;
   I: Integer;
   NodeEmpresa, NodeCert, NodeNFe: TTreeNode;
+  ultimaconsulta: string;
+  ultimonsu: string;
 begin
   TreeView1.Items.Clear;
 
@@ -129,11 +131,16 @@ begin
       NodeNFe := TreeView1.Items.AddChild(NodeEmpresa,
         'Dados de NFe');
 
-      TreeView1.Items.AddChild(NodeNFe,
-        'última procura: (não definido)');
+      if Emp.UltimaConsulta > 0 then
+        ultimaconsulta := DateTimeToStr(Emp.UltimaConsulta)
+      else
+        ultimaconsulta :=  'última procura: (nunca)'     ;
 
       TreeView1.Items.AddChild(NodeNFe,
-        'último nsu: (não definido)');
+        'última procura: ' + ultimaconsulta ) ;
+
+      TreeView1.Items.AddChild(NodeNFe,
+        'último nsu: ' + emp.UltimoNSU );
     end;
 
   finally

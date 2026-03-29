@@ -17,6 +17,8 @@ type
     FValidadeFim: TDate;
     FEmail: string;
     FTipo: string;
+    FUltimaConsulta: TDateTime;
+    FUltimoNSU: string;
   public
     property CNPJ: string read FCNPJ write FCNPJ;
     property RazaoSocial: string read FRazaoSocial write FRazaoSocial;
@@ -27,6 +29,8 @@ type
     property ValidadeFim: TDate read FValidadeFim write FValidadeFim;
     property Email: string read FEmail write FEmail;
     property Tipo: string read FTipo write FTipo;
+    property UltimaConsulta: TDateTime read FUltimaConsulta write FUltimaConsulta;
+    property UltimoNSU: string read FUltimoNSU write FUltimoNSU;
   end;
 
 implementation
