@@ -549,14 +549,14 @@ object Form_Principal: TForm_Principal
   PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
-    Left = 209
+    Left = 233
     Top = 29
     Width = 2
     Height = 701
     ExplicitLeft = 185
   end
   object Splitter2: TSplitter
-    Left = 1109
+    Left = 1068
     Top = 29
     Height = 701
     Align = alRight
@@ -620,7 +620,7 @@ object Form_Principal: TForm_Principal
   object Panel1: TPanel
     Left = 0
     Top = 29
-    Width = 209
+    Width = 233
     Height = 701
     Align = alLeft
     Caption = 'Panel1'
@@ -628,10 +628,11 @@ object Form_Principal: TForm_Principal
     object ToolBar2: TToolBar
       Left = 1
       Top = 1
-      Width = 207
+      Width = 231
       Height = 22
       Caption = 'ToolBar2'
       TabOrder = 0
+      ExplicitWidth = 207
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -660,17 +661,18 @@ object Form_Principal: TForm_Principal
     object TreeView1: TTreeView
       Left = 1
       Top = 23
-      Width = 207
+      Width = 231
       Height = 677
       Align = alClient
       Indent = 19
       TabOrder = 1
+      ExplicitWidth = 207
     end
   end
   object Panel2: TPanel
-    Left = 1112
+    Left = 1071
     Top = 29
-    Width = 192
+    Width = 233
     Height = 701
     Align = alRight
     Caption = 'Panel2'
@@ -678,48 +680,54 @@ object Form_Principal: TForm_Principal
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 190
+      Width = 231
       Height = 22
       Align = alTop
       BevelOuter = bvNone
       Caption = 'Filtros'
       TabOrder = 0
+      ExplicitWidth = 190
     end
     object TreeView2: TTreeView
       Left = 1
       Top = 23
-      Width = 190
+      Width = 231
       Height = 677
       Align = alClient
       Indent = 19
       TabOrder = 1
+      ExplicitWidth = 190
     end
   end
   object Panel4: TPanel
-    Left = 211
+    Left = 235
     Top = 29
-    Width = 898
+    Width = 833
     Height = 701
     Align = alClient
     Caption = 'Panel4'
     TabOrder = 4
+    ExplicitLeft = 211
+    ExplicitWidth = 898
     object Panel5: TPanel
       Left = 1
       Top = 1
-      Width = 896
+      Width = 831
       Height = 41
       Align = alTop
       Caption = 'Panel5'
       TabOrder = 0
+      ExplicitWidth = 896
     end
     object PageControl1: TPageControl
       Left = 1
       Top = 42
-      Width = 896
+      Width = 831
       Height = 658
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 1
+      ExplicitWidth = 896
       object TabSheet1: TTabSheet
         Caption = 'Emitidas por terceiros'
       end
@@ -734,11 +742,11 @@ object Form_Principal: TForm_Principal
         object Panel6: TPanel
           Left = 0
           Top = 0
-          Width = 888
+          Width = 823
           Height = 41
           Align = alTop
           TabOrder = 0
-          ExplicitWidth = 927
+          ExplicitWidth = 888
           object Label1: TLabel
             Left = 19
             Top = 10
@@ -783,13 +791,14 @@ object Form_Principal: TForm_Principal
         object StringGrid1: TStringGrid
           Left = 0
           Top = 41
-          Width = 888
+          Width = 823
           Height = 589
           Align = alClient
           ColCount = 9
           FixedCols = 0
           Options = [goFixedVertLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
           TabOrder = 1
+          ExplicitWidth = 888
           ColWidths = (
             257
             275
