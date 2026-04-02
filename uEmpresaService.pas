@@ -39,7 +39,7 @@ implementation
 
 constructor TEmpresaService.Create(const AArquivo: string);
 begin
-  FLista := TObjectList<TEmpresa>.Create(True); // True = gerencia memória
+  FLista := TObjectList<TEmpresa>.Create(False); // True = gerencia memória
   FArquivo := AArquivo;
 end;
 
@@ -160,6 +160,7 @@ begin
   Result.AddPair('Tipo',Emp.Tipo);
   Result.AddPair('UltimaConsulta', DateToISO8601(Emp.UltimaConsulta));
   Result.AddPair('UltimoNSU', Emp.UltimoNSU);
+  Result.AddPair('PastaXML', Emp.PastaXML);
 end;
 
 function TEmpresaService.JSONToEmpresa(Obj: TJSONObject): TEmpresa;
@@ -191,8 +192,8 @@ begin
   StrData := Obj.GetValue<string>('UltimaConsulta', '');
   if StrData <> '' then
     Result.UltimaConsulta := ISO8601ToDate(StrData);
-
   Result.UltimoNSU := Obj.GetValue<string>('UltimoNSU', '');
+  Result.PastaXML := Obj.GetValue<string>('PastaXML', '');
 
 end;
 

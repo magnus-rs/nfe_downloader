@@ -1,4 +1,4 @@
-object Form_Principal: TForm_Principal
+﻿object Form_Principal: TForm_Principal
   Left = 0
   Top = 0
   Caption = 'NFe Downloader'
@@ -564,6 +564,13 @@ object Form_Principal: TForm_Principal
     ExplicitTop = 32
     ExplicitHeight = 100
   end
+  object Label4: TLabel
+    Left = 648
+    Top = 400
+    Width = 31
+    Height = 13
+    Caption = 'Label4'
+  end
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
@@ -632,7 +639,6 @@ object Form_Principal: TForm_Principal
       Height = 22
       Caption = 'ToolBar2'
       TabOrder = 0
-      ExplicitWidth = 207
       object ToolButton1: TToolButton
         Left = 0
         Top = 0
@@ -665,8 +671,9 @@ object Form_Principal: TForm_Principal
       Height = 677
       Align = alClient
       Indent = 19
+      ReadOnly = True
       TabOrder = 1
-      ExplicitWidth = 207
+      OnClick = TreeView1Click
     end
   end
   object Panel2: TPanel
@@ -686,7 +693,6 @@ object Form_Principal: TForm_Principal
       BevelOuter = bvNone
       Caption = 'Filtros'
       TabOrder = 0
-      ExplicitWidth = 190
     end
     object TreeView2: TTreeView
       Left = 1
@@ -696,7 +702,6 @@ object Form_Principal: TForm_Principal
       Align = alClient
       Indent = 19
       TabOrder = 1
-      ExplicitWidth = 190
     end
   end
   object Panel4: TPanel
@@ -707,29 +712,159 @@ object Form_Principal: TForm_Principal
     Align = alClient
     Caption = 'Panel4'
     TabOrder = 4
-    ExplicitLeft = 211
-    ExplicitWidth = 898
     object Panel5: TPanel
       Left = 1
       Top = 1
       Width = 831
       Height = 41
       Align = alTop
-      Caption = 'Panel5'
       TabOrder = 0
-      ExplicitWidth = 896
+      object Label2: TLabel
+        Left = 16
+        Top = 14
+        Width = 48
+        Height = 13
+        Caption = 'Listar de :'
+      end
+      object Label3: TLabel
+        Left = 173
+        Top = 14
+        Width = 10
+        Height = 13
+        Caption = 'a:'
+      end
+      object Button_Buscar: TSpeedButton
+        Left = 293
+        Top = 10
+        Width = 54
+        Height = 22
+        Caption = 'Buscar'
+      end
+      object Button_Selecionar: TSpeedButton
+        Left = 736
+        Top = 10
+        Width = 82
+        Height = 22
+        Caption = 'Selecionar'
+        OnClick = Button_SelecionarClick
+      end
+      object Label5: TLabel
+        Left = 364
+        Top = 14
+        Width = 70
+        Height = 13
+        Caption = 'Salvar XMLem:'
+      end
+      object DateTimePicker1: TDateTimePicker
+        Left = 68
+        Top = 10
+        Width = 97
+        Height = 21
+        Date = 46112.000000000000000000
+        Time = 0.909143124998081500
+        TabOrder = 0
+      end
+      object DateTimePicker2: TDateTimePicker
+        Left = 190
+        Top = 10
+        Width = 97
+        Height = 21
+        Date = 46112.000000000000000000
+        Time = 0.909344861109275400
+        TabOrder = 1
+      end
+      object Edit_Pasta: TEdit
+        Left = 441
+        Top = 10
+        Width = 289
+        Height = 21
+        TabOrder = 2
+      end
     end
     object PageControl1: TPageControl
       Left = 1
       Top = 42
       Width = 831
-      Height = 658
+      Height = 639
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 1
-      ExplicitWidth = 896
       object TabSheet1: TTabSheet
         Caption = 'Emitidas por terceiros'
+        object DBGrid_NFE_Entrada: TDBGrid
+          Left = 0
+          Top = 0
+          Width = 823
+          Height = 611
+          Align = alClient
+          DataSource = DataSource_NFE_Entrada
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'NFe N'#250'mero'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NFe S'#233'rie'
+              Width = 60
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Tipo'
+              Width = 60
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Emiss'#227'o'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Valor'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Vencimento'
+              Width = 85
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Emitente'
+              Width = 360
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CFOP'
+              Width = 60
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Natureza'
+              Width = 150
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NFe Chave'
+              Width = 360
+              Visible = True
+            end>
+        end
       end
       object TabSheet2: TTabSheet
         Caption = 'Emitidas pela empresa'
@@ -746,7 +881,6 @@ object Form_Principal: TForm_Principal
           Height = 41
           Align = alTop
           TabOrder = 0
-          ExplicitWidth = 888
           object Label1: TLabel
             Left = 19
             Top = 10
@@ -792,13 +926,12 @@ object Form_Principal: TForm_Principal
           Left = 0
           Top = 41
           Width = 823
-          Height = 589
+          Height = 570
           Align = alClient
           ColCount = 9
           FixedCols = 0
           Options = [goFixedVertLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
           TabOrder = 1
-          ExplicitWidth = 888
           ColWidths = (
             257
             275
@@ -812,9 +945,25 @@ object Form_Principal: TForm_Principal
         end
       end
     end
+    object StatusBar2: TStatusBar
+      Left = 1
+      Top = 681
+      Width = 831
+      Height = 19
+      Panels = <
+        item
+          Text = 'Quantidade de notas:'
+          Width = 200
+        end
+        item
+          Text = 'Valor total das Notas:'
+          Width = 50
+        end>
+    end
   end
   object MainMenu1: TMainMenu
-    Left = 640
+    Left = 600
+    Top = 65520
     object Arquivo1: TMenuItem
       Caption = 'Arquivo'
       object Sair1: TMenuItem
@@ -843,6 +992,48 @@ object Form_Principal: TForm_Principal
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
-    Left = 576
+    Left = 544
+    Top = 65520
+  end
+  object CDataSet_NFE_Entrada: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 312
+    Top = 199
+    object CDataSet_NFE_EntradaNFeNúmero: TStringField
+      FieldName = 'NFe N'#250'mero'
+    end
+    object CDataSet_NFE_EntradaNFeSérie: TStringField
+      FieldName = 'NFe S'#233'rie'
+    end
+    object CDataSet_NFE_EntradaNFeCTeTipo: TStringField
+      FieldName = 'Tipo'
+    end
+    object CDataSet_NFE_EntradaEmissão: TStringField
+      FieldName = 'Emiss'#227'o'
+    end
+    object CDataSet_NFE_EntradaValor: TCurrencyField
+      FieldName = 'Valor'
+    end
+    object CDataSet_NFE_EntradaVencimento: TDateField
+      FieldName = 'Vencimento'
+    end
+    object CDataSet_NFE_EntradaEmitente: TStringField
+      FieldName = 'Emitente'
+    end
+    object CDataSet_NFE_EntradaCFOP: TStringField
+      FieldName = 'CFOP'
+    end
+    object CDataSet_NFE_EntradaNatureza: TStringField
+      FieldName = 'Natureza'
+    end
+    object CDataSet_NFE_EntradaNFeChave: TStringField
+      FieldName = 'NFe Chave'
+    end
+  end
+  object DataSource_NFE_Entrada: TDataSource
+    DataSet = CDataSet_NFE_Entrada
+    Left = 312
+    Top = 255
   end
 end

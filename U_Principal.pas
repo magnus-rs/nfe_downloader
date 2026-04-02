@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.Grids, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin, ACBrBase, ACBrDFe, ACBrNFe, ACBrDFeSSL,
   ACBrNFeConfiguracoes, ACBrDFeConfiguracoes,uEmpresa, uEmpresaService, System.DateUtils,
-  System.Generics.Collections;
+  System.Generics.Collections, Data.DB, Vcl.Buttons, Vcl.DBGrids,
+  Datasnap.DBClient, FileCtrl;
 
 type
   TForm_Principal = class(TForm)
@@ -50,13 +51,39 @@ type
     BTN_Importar_Certificado: TButton;
     BTN_Remover_Certificado: TButton;
     BTN_Atualizar_Lista: TButton;
+    CDataSet_NFE_Entrada: TClientDataSet;
+    DataSource_NFE_Entrada: TDataSource;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    Label2: TLabel;
+    Label3: TLabel;
+    Button_Buscar: TSpeedButton;
+    Edit_Pasta: TEdit;
+    Button_Selecionar: TSpeedButton;
+    Label4: TLabel;
+    Label5: TLabel;
+    CDataSet_NFE_EntradaNFeNúmero: TStringField;
+    CDataSet_NFE_EntradaNFeSérie: TStringField;
+    CDataSet_NFE_EntradaNFeCTeTipo: TStringField;
+    CDataSet_NFE_EntradaEmissão: TStringField;
+    CDataSet_NFE_EntradaValor: TCurrencyField;
+    CDataSet_NFE_EntradaVencimento: TDateField;
+    CDataSet_NFE_EntradaEmitente: TStringField;
+    CDataSet_NFE_EntradaCFOP: TStringField;
+    CDataSet_NFE_EntradaNatureza: TStringField;
+    CDataSet_NFE_EntradaNFeChave: TStringField;
+    StatusBar2: TStatusBar;
+    DBGrid_NFE_Entrada: TDBGrid;
     procedure FormCreate(Sender: TObject);
     procedure ConfigurarACBr;
     procedure Certificados1Click(Sender: TObject);
     procedure BTN_Importar_CertificadoClick(Sender: TObject);
     procedure BTN_Remover_CertificadoClick(Sender: TObject);
     procedure BTN_Atualizar_ListaClick(Sender: TObject);
+    procedure TreeView1Click(Sender: TObject);
+    procedure Button_SelecionarClick(Sender: TObject);
   private
+    FListaEmpresas: TObjectList<TEmpresa>;
     procedure CarregarTreeViewEmpresas;
     { Private declarations }
   public
@@ -88,6 +115,29 @@ begin
   Treeview1.FullCollapse;
 end;
 
+procedure TForm_Principal.TreeView1Click(Sender: TObject);
+var
+  Node: TTreeNode;
+  Emp: TEmpresa;
+  Razao: string;
+begin
+  Node := TreeView1.Selected;
+
+  if not Assigned(Node) then Exit;
+
+  // sobe até o nó principal (empresa)
+  while Assigned(Node.Parent) do
+    Node := Node.Parent;
+
+  if Assigned(Node.Data) then
+  begin
+    Emp := TEmpresa(Node.Data);
+    //Emp := TEmpresa(TreeView1.Selected.Data);
+    Razao := Emp.RazaoSocial;
+    Edit_Pasta.Text := Emp.PastaXML;
+  end;
+end;
+
 procedure TForm_Principal.CarregarTreeViewEmpresas;
 var
   Service: TEmpresaService;
@@ -108,10 +158,13 @@ begin
     for I := 0 to Lista.Count - 1 do
     begin
       Emp := Lista[I];
+      //showmessage(emp.RazaoSocial + ' - ' + emp.PastaXML);
 
       //  NÍVEL 1 → Empresa
       NodeEmpresa := TreeView1.Items.Add(nil,
         Format('%.4d : %s', [I + 1, Emp.RazaoSocial]));
+
+      NodeEmpresa.Data := Emp;
 
       //  CNPJ
       TreeView1.Items.AddChild(NodeEmpresa,
@@ -141,13 +194,16 @@ begin
 
       TreeView1.Items.AddChild(NodeNFe,
         'último nsu: ' + emp.UltimoNSU );
+
+      TreeView1.Items.AddChild(NodeNFe,
+        'pasta XML: ' + Emp.PastaXML);
     end;
 
   finally
     Service.Free;
   end;
 
-  TreeView1.FullExpand;
+  TreeView1.FullCollapse;
 end;
 
 procedure TForm_Principal.BTN_Atualizar_ListaClick(Sender: TObject);
@@ -258,6 +314,64 @@ begin
   CarregarTreeViewEmpresas;
   Treeview1.FullCollapse;
 
+end;
+
+procedure TForm_Principal.Button_SelecionarClick(Sender: TObject);
+var
+  Dir: string;
+  Node: TTreeNode;
+  Emp: TEmpresa;
+  Service: TEmpresaService;
+begin
+  Dir := '';
+
+  if not SelectDirectory('Selecione a pasta dos XMLs', '', Dir) then
+    Exit;
+
+  Node := TreeView1.Selected;
+
+  if not Assigned(Node) then Exit;
+
+  // sobe até o nó da empresa
+  while Assigned(Node.Parent) do
+    Node := Node.Parent;
+
+  if not Assigned(Node.Data) then Exit;
+
+  Emp := TEmpresa(Node.Data);
+
+  // Atualiza objeto
+  Emp.PastaXML := Dir;
+
+  // Cria pasta se não existir
+  if not DirectoryExists(Dir) then
+    ForceDirectories(Dir);
+
+  // Salva no JSON
+  Service := TEmpresaService.Create;
+  try
+    Service.Carregar;
+
+    // busca novamente dentro do service
+    var EmpJSON := Service.Buscar(Emp.CNPJ);
+
+    if Assigned(EmpJSON) then
+    begin
+      EmpJSON.PastaXML := Dir;
+      Service.Salvar;
+    end;
+
+  finally
+    Service.Free;
+  end;
+
+  // Atualiza UI
+  Edit_Pasta.Text := Dir;
+
+  // Atualiza TreeView
+  CarregarTreeViewEmpresas;
+
+  ShowMessage('Pasta atualizada com sucesso.');
 end;
 
 procedure TForm_Principal.Certificados1Click(Sender: TObject);
