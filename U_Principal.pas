@@ -5,8 +5,19 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.Grids, Vcl.ExtCtrls,
-  Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin, ACBrBase, ACBrDFe, ACBrNFe, ACBrDFeSSL,
-  ACBrNFeConfiguracoes, ACBrDFeConfiguracoes,uEmpresa, uEmpresaService, System.DateUtils,
+  Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ToolWin, System.DateUtils, System.UITypes,
+  ACBrBase,
+  ACBrDFe,
+  ACBrNFe,
+  ACBrDFeSSL,
+  ACBrNFeConfiguracoes,
+  ACBrDFeConfiguracoes,
+  pcnConversaoNFe,
+  pcnConversao,
+  ACBrNFeNotasFiscais,
+  ACBrNFeWebServices,
+  uEmpresa,
+  uEmpresaService,
   System.Generics.Collections, Data.DB, Vcl.Buttons, Vcl.DBGrids,
   Datasnap.DBClient, FileCtrl;
 
@@ -82,6 +93,10 @@ type
     procedure BTN_Atualizar_ListaClick(Sender: TObject);
     procedure TreeView1Click(Sender: TObject);
     procedure Button_SelecionarClick(Sender: TObject);
+    procedure Button_BuscarClick(Sender: TObject);
+    procedure BuscarDistribuicao(Emp: TEmpresa);
+    procedure ManifestarNFe(Emp: TEmpresa; Chave: string);
+    function BaixarXMLCompleto(Emp: TEmpresa; const Chave: string; out Caminho: string): Boolean;
   private
     FListaEmpresas: TObjectList<TEmpresa>;
     procedure CarregarTreeViewEmpresas;
@@ -100,7 +115,24 @@ implementation
 uses U_Certificados;
 
 procedure TForm_Principal.FormCreate(Sender: TObject);
+var
+  Service: TEmpresaService;
+  Emp: TEmpresa;
 begin
+  Service := TEmpresaService.Create;
+  try
+    Service.Carregar;
+
+    FListaEmpresas := TObjectList<TEmpresa>.Create(True);
+
+    // 🔥 cópia manual (correta)
+    for Emp in Service.Lista do
+      FListaEmpresas.Add(Emp);
+
+  finally
+    Service.Free;
+  end;
+
   ConfigurarACBr;
   StringGrid1.Cells[0,0] := 'Titular';
   StringGrid1.Cells[1,0] := 'email';
@@ -113,6 +145,8 @@ begin
   StringGrid1.Cells[8,0] := 'Ações';
   CarregarTreeViewEmpresas;
   Treeview1.FullCollapse;
+  DateTimePicker1.DateTime := (Today-15);
+  DateTimePicker2.DateTime := Today;
 end;
 
 procedure TForm_Principal.TreeView1Click(Sender: TObject);
@@ -146,7 +180,6 @@ var
   I: Integer;
   NodeEmpresa, NodeCert, NodeNFe: TTreeNode;
   ultimaconsulta: string;
-  ultimonsu: string;
 begin
   TreeView1.Items.Clear;
 
@@ -275,45 +308,214 @@ begin
     Exit;
   end;
 
+  if not Assigned(FListaEmpresas) then
+  begin
+    ShowMessage('Lista de empresas não carregada.');
+    Exit;
+  end;
+
   CNPJ := StringGrid1.Cells[2, Linha];
 
+  Empresa := nil;
+
+  for var Emp in FListaEmpresas do
+  begin
+    if Emp.CNPJ = CNPJ then
+    begin
+      Empresa := Emp;
+      Break;
+    end;
+  end;
+
+  if not Assigned(Empresa) then
+  begin
+    ShowMessage('Certificado não encontrado.');
+    Exit;
+  end;
+
+  Senha := InputBox('Confirmação', 'Digite a senha do certificado:', '');
+
+  if Senha <> Empresa.CertificadoSenha then
+  begin
+    ShowMessage('Senha incorreta.');
+    Exit;
+  end;
+
+  if MessageDlg('Deseja realmente remover este certificado?',
+    mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    FListaEmpresas.Remove(Empresa);
+
+    Service := TEmpresaService.Create;
+    try
+      Service.Salvar(FListaEmpresas);
+    finally
+      Service.Free;
+    end;
+
+    ShowMessage('Certificado removido com sucesso.');
+
+    BTN_Atualizar_ListaClick(nil);
+    CarregarTreeViewEmpresas;
+    TreeView1.FullCollapse;
+  end;
+end;
+
+procedure TForm_Principal.Button_BuscarClick(Sender: TObject);
+var
+  Emp: TEmpresa;
+  Node: TTreeNode;
+  Agora: TDateTime;
+begin
+  Node := TreeView1.Selected;
+
+  while Assigned(Node.Parent) do
+    Node := Node.Parent;
+
+  if not Assigned(Node.Data) then Exit;
+
+  Emp := TEmpresa(Node.Data);
+
+  Agora := Now;
+
+  // 🚨 REGRA DE 1 HORA
+  if (Emp.UltimaConsulta > 0) and
+     (MinutesBetween(Agora, Emp.UltimaConsulta) < 60) then
+  begin
+    ShowMessage('Aguarde pelo menos 1 hora para nova consulta.');
+    Exit;
+  end;
+
+  BuscarDistribuicao(Emp);
+end;
+
+procedure TForm_Principal.BuscarDistribuicao(Emp: TEmpresa);
+var
+  I: Integer;
+  Chave: string;
+  Caminho: string;
+  Service: TEmpresaService;
+begin
+  // 🔒 Segurança básica
+  if not Assigned(Emp) then Exit;
+
+  // 🔹 Validação UF
+  if Emp.UF <= 0 then
+  begin
+    ShowMessage('UF não configurada para a empresa.');
+    Exit;
+  end;
+
+  // 🔹 NSU inicial
+  if Emp.UltimoNSU = '' then
+    Emp.UltimoNSU := '000000000000000';
+
+  // 🔹 Consulta por NSU
+  ACBrNFe1.DistribuicaoDFePorUltNSU(Emp.UF, Emp.CNPJ, Emp.UltimoNSU);
+
+  // 🔹 Percorre os documentos retornados
+  for I := 0 to ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+  begin
+    with ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Items[I] do
+    begin
+      // 🔥 Compatível com qualquer versão (evita enum)
+      if Pos('<resNFe', XML) > 0 then
+      begin
+        Chave := ResDFe.chDFe;
+
+        Caminho := IncludeTrailingPathDelimiter(Emp.PastaXML) + Chave + '.xml';
+
+        // 🔁 Evita duplicidade
+        if FileExists(Caminho) then
+          Continue;
+
+        // 🔥 1. Manifestar
+        ACBrNFe1.EventoNFe.Evento.Clear;
+
+        with ACBrNFe1.EventoNFe.Evento.New do
+        begin
+          InfEvento.chNFe := Chave;
+          InfEvento.CNPJ := Emp.CNPJ;
+          InfEvento.tpEvento := teManifDestCiencia; // teCienciaOperacao;
+
+        end;
+
+        ACBrNFe1.EnviarEvento(1);
+
+        // 🔥 Aguarda SEFAZ liberar XML
+        Sleep(2000);
+
+        // 🔥 2. Baixar XML completo (função separada)
+        if BaixarXMLCompleto(Emp, Chave, Caminho) then
+        begin
+          StatusBar2.SimpleText := 'XML baixado: ' + Chave;
+        end;
+      end;
+    end;
+  end;
+
+  // 🔥 Atualiza NSU
+  Emp.UltimoNSU :=
+    ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.ultNSU;
+
+  // 🔥 Atualiza data da última consulta
+  Emp.UltimaConsulta := Now;
+
+  // 🔥 Salvar alterações no JSON
   Service := TEmpresaService.Create;
   try
-    Service.Carregar;
-
-    Empresa := Service.Buscar(CNPJ);
-
-    if not Assigned(Empresa) then
-    begin
-      ShowMessage('Certificado não encontrado.');
-      Exit;
-    end;
-
-    Senha := InputBox('Confirmação', 'Digite a senha do certificado:', '');
-
-    if Senha <> Empresa.CertificadoSenha then
-    begin
-      ShowMessage('Senha incorreta.');
-      Exit;
-    end;
-
-    if MessageDlg('Deseja realmente remover este certificado?',
-      mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    begin
-      Service.Remover(CNPJ);
-      Service.Salvar;
-
-      ShowMessage('Certificado removido com sucesso.');
-
-      BTN_Atualizar_ListaClick(nil);
-    end;
-
+    Service.Salvar(FListaEmpresas);
   finally
     Service.Free;
   end;
-  CarregarTreeViewEmpresas;
-  Treeview1.FullCollapse;
 
+  StatusBar2.SimpleText := 'Consulta finalizada em ' + TimeToStr(Now);
+end;
+
+procedure TForm_Principal.ManifestarNFe(Emp: TEmpresa; Chave: string);
+begin
+  ACBrNFe1.EventoNFe.Evento.Clear;
+
+  with ACBrNFe1.EventoNFe.Evento.New do
+  begin
+    InfEvento.chNFe := Chave;
+    InfEvento.CNPJ := Emp.CNPJ;
+    InfEvento.tpEvento := teManifDestCiencia; //teCienciaOperacao;
+  end;
+
+  ACBrNFe1.EnviarEvento(1);
+end;
+
+function TForm_Principal.BaixarXMLCompleto(Emp: TEmpresa; const Chave: string; out Caminho: string): Boolean;
+begin
+  Result := False;
+
+  // 🔒 Validação básica
+  if not Assigned(Emp) then Exit;
+  if Emp.UF <= 0 then Exit;
+
+  // 🔥 Monta caminho final
+  Caminho := IncludeTrailingPathDelimiter(Emp.PastaXML) + Chave + '.xml';
+
+  // 🔁 Evita baixar novamente
+  if FileExists(Caminho) then
+  begin
+    Result := True;
+    Exit;
+  end;
+
+  // 🔹 Consulta por chave (AGORA COM UF + CNPJ)
+  ACBrNFe1.DistribuicaoDFePorChaveNFe(Emp.UF, Emp.CNPJ, Chave);
+
+  // 🔹 Se retornou XML completo
+  if ACBrNFe1.NotasFiscais.Count > 0 then
+  begin
+    ForceDirectories(Emp.PastaXML);
+
+    ACBrNFe1.NotasFiscais.Items[0].GravarXML(Caminho);
+
+    Result := True;
+  end;
 end;
 
 procedure TForm_Principal.Button_SelecionarClick(Sender: TObject);
@@ -322,6 +524,7 @@ var
   Node: TTreeNode;
   Emp: TEmpresa;
   Service: TEmpresaService;
+  EmpTree, EmpLista: TEmpresa;
 begin
   Dir := '';
 
@@ -332,43 +535,56 @@ begin
 
   if not Assigned(Node) then Exit;
 
-  // sobe até o nó da empresa
+  // 🔹 sobe até o nó raiz (empresa)
   while Assigned(Node.Parent) do
     Node := Node.Parent;
 
   if not Assigned(Node.Data) then Exit;
 
-  Emp := TEmpresa(Node.Data);
+  //Emp := TEmpresa(Node.Data);
 
-  // Atualiza objeto
-  Emp.PastaXML := Dir;
+  // 🔥 Atualiza diretamente o objeto em memória
+  //Emp.PastaXML := Dir;
 
-  // Cria pasta se não existir
+  EmpTree := TEmpresa(Node.Data);
+
+  EmpLista := nil;
+
+  for var E in FListaEmpresas do
+  begin
+    if E.CNPJ = EmpTree.CNPJ then
+    begin
+      EmpLista := E;
+      Break;
+    end;
+  end;
+
+  if not Assigned(EmpLista) then
+  begin
+    ShowMessage('Empresa não encontrada na lista.');
+    Exit;
+  end;
+
+  EmpLista.PastaXML := Dir;
+
+  ShowMessage(EmpLista.PastaXML);
+
+  // 🔹 Cria pasta se não existir
   if not DirectoryExists(Dir) then
     ForceDirectories(Dir);
 
-  // Salva no JSON
+  // 🔥 Persistência correta
   Service := TEmpresaService.Create;
   try
-    Service.Carregar;
-
-    // busca novamente dentro do service
-    var EmpJSON := Service.Buscar(Emp.CNPJ);
-
-    if Assigned(EmpJSON) then
-    begin
-      EmpJSON.PastaXML := Dir;
-      Service.Salvar;
-    end;
-
+    Service.Salvar(FListaEmpresas);
   finally
     Service.Free;
   end;
 
-  // Atualiza UI
+  // 🔄 Atualiza UI
   Edit_Pasta.Text := Dir;
 
-  // Atualiza TreeView
+  // 🔄 Atualiza TreeView
   CarregarTreeViewEmpresas;
 
   ShowMessage('Pasta atualizada com sucesso.');

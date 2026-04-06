@@ -20,6 +20,7 @@ type
     FUltimaConsulta: TDateTime;
     FUltimoNSU: string;
     FPastaXML: string;
+    FUF: integer;
   public
     property CNPJ: string read FCNPJ write FCNPJ;
     property RazaoSocial: string read FRazaoSocial write FRazaoSocial;
@@ -33,6 +34,7 @@ type
     property UltimaConsulta: TDateTime read FUltimaConsulta write FUltimaConsulta;
     property UltimoNSU: string read FUltimoNSU write FUltimoNSU;
     property PastaXML: string read FPastaXML write FPastaXML;
+    property UF: integer read FUF write FUF;
   end;
 
 implementation

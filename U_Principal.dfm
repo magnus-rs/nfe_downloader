@@ -739,6 +739,7 @@
         Width = 54
         Height = 22
         Caption = 'Buscar'
+        OnClick = Button_BuscarClick
       end
       object Button_Selecionar: TSpeedButton
         Left = 736
@@ -962,8 +963,8 @@
     end
   end
   object MainMenu1: TMainMenu
-    Left = 600
-    Top = 65520
+    Left = 592
+    Top = 65528
     object Arquivo1: TMenuItem
       Caption = 'Arquivo'
       object Sair1: TMenuItem
@@ -989,11 +990,12 @@
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.WebServices.UF = 'RS'
+    Configuracoes.WebServices.Ambiente = taProducao
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
-    Left = 544
-    Top = 65520
+    Left = 512
+    Top = 65528
   end
   object CDataSet_NFE_Entrada: TClientDataSet
     Aggregates = <>

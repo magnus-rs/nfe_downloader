@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.StdCtrls, Vcl.ExtCtrls,
   Vcl.Mask, ACBrNFe, ACBrDFeSSL, System.DateUtils, uEmpresa, uEmpresaService,
-  ACBrBase, ACBrDFe;
+  ACBrBase, ACBrDFe, pcnConversaoNFe, pcnConversao, ACBrUtil;
 
 type
   TForm_certificados = class(TForm)
@@ -26,6 +26,8 @@ type
     ACBrNFe1: TACBrNFe;
     Label6: TLabel;
     EditEmail: TEdit;
+    Label7: TLabel;
+    Edit_UF: TComboBox;
     procedure BtnImportarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -66,6 +68,36 @@ end;
 
 procedure TForm_certificados.FormCreate(Sender: TObject);
 begin
+  Edit_UF.Items.Clear;
+
+  Edit_UF.Items.AddObject('RO', TObject(11));
+  Edit_UF.Items.AddObject('AC', TObject(12));
+  Edit_UF.Items.AddObject('AM', TObject(13));
+  Edit_UF.Items.AddObject('RR', TObject(14));
+  Edit_UF.Items.AddObject('PA', TObject(15));
+  Edit_UF.Items.AddObject('AP', TObject(16));
+  Edit_UF.Items.AddObject('TO', TObject(17));
+  Edit_UF.Items.AddObject('MA', TObject(21));
+  Edit_UF.Items.AddObject('PI', TObject(22));
+  Edit_UF.Items.AddObject('CE', TObject(23));
+  Edit_UF.Items.AddObject('RN', TObject(24));
+  Edit_UF.Items.AddObject('PB', TObject(25));
+  Edit_UF.Items.AddObject('PE', TObject(26));
+  Edit_UF.Items.AddObject('AL', TObject(27));
+  Edit_UF.Items.AddObject('SE', TObject(28));
+  Edit_UF.Items.AddObject('BA', TObject(29));
+  Edit_UF.Items.AddObject('MG', TObject(31));
+  Edit_UF.Items.AddObject('ES', TObject(32));
+  Edit_UF.Items.AddObject('RJ', TObject(33));
+  Edit_UF.Items.AddObject('SP', TObject(35));
+  Edit_UF.Items.AddObject('PR', TObject(41));
+  Edit_UF.Items.AddObject('SC', TObject(42));
+  Edit_UF.Items.AddObject('RS', TObject(43));
+  Edit_UF.Items.AddObject('MS', TObject(50));
+  Edit_UF.Items.AddObject('MT', TObject(51));
+  Edit_UF.Items.AddObject('GO', TObject(52));
+  Edit_UF.Items.AddObject('DF', TObject(53));
+
    ConfigurarACBr;
 end;
 
@@ -152,12 +184,19 @@ procedure TForm_certificados.SalvarEmpresa;
 var
   Service: TEmpresaService;
   Empresa: TEmpresa;
+  CodUF: integer;
 begin
   if EditCNPJ.Text = '' then
   begin
     ShowMessage('CNPJ não informado.');
     Exit;
   end;
+
+  if Edit_UF.ItemIndex < 0 then
+    begin
+      ShowMessage('Selecione a UF.');
+      Exit;
+    end;
 
   Service := TEmpresaService.Create;
   try
@@ -179,15 +218,24 @@ begin
     Empresa.ValidadeFim := StrToDateDef(EditValidade.Text, Now);
     Empresa.Email := EditEmail.Text;
 
+    if Edit_UF.ItemIndex >= 0 then
+      CodUF := Integer(Edit_UF.Items.Objects[Edit_UF.ItemIndex])
+    else
+      CodUF := 0;
+
+    Empresa.UF := CodUF;
+
     if ACBrNFe1.SSL.DadosCertificado.Tipo = tPCA1 then
       Empresa.Tipo :=  'A1'
     else if ACBrNFe1.SSL.DadosCertificado.Tipo = tPCA3 then
       Empresa.Tipo := 'A3'
     else
       Empresa.Tipo := 'Desconhecido';
+    Empresa.UltimaConsulta := Now-3;
+    Empresa.UltimoNSU := '000000000000000';
 
     Service.Adicionar(Empresa);
-    Service.Salvar;
+    Service.Salvar(Service.Lista);
 
     ShowMessage('Empresa salva com sucesso!');
 

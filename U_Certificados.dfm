@@ -51,7 +51,7 @@ object Form_certificados: TForm_certificados
     Caption = 'Validade:'
   end
   object Label5: TLabel
-    Left = 328
+    Left = 367
     Top = 80
     Width = 34
     Height = 13
@@ -63,6 +63,13 @@ object Form_certificados: TForm_certificados
     Width = 28
     Height = 13
     Caption = 'Email:'
+  end
+  object Label7: TLabel
+    Left = 266
+    Top = 80
+    Width = 17
+    Height = 13
+    Caption = 'UF:'
   end
   object EditCNPJ: TEdit
     Left = 120
@@ -106,7 +113,7 @@ object Form_certificados: TForm_certificados
     TabOrder = 4
   end
   object EditSenha: TMaskEdit
-    Left = 392
+    Left = 416
     Top = 77
     Width = 167
     Height = 21
@@ -117,9 +124,16 @@ object Form_certificados: TForm_certificados
   object EditEmail: TEdit
     Left = 120
     Top = 109
-    Width = 369
+    Width = 463
     Height = 21
     TabOrder = 6
+  end
+  object Edit_UF: TComboBox
+    Left = 290
+    Top = 77
+    Width = 60
+    Height = 21
+    TabOrder = 7
   end
   object OpenDialog1: TOpenDialog
     Filter = 'Arquivo .pfx|*.pfx|Todos os arquivos|*.*'
@@ -137,7 +151,7 @@ object Form_certificados: TForm_certificados
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
-    Left = 120
-    Top = 122
+    Left = 136
+    Top = 226
   end
 end

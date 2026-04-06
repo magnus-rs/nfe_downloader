@@ -29,8 +29,10 @@ type
     function Buscar(CNPJ: string): TEmpresa;
     function Listar: TObjectList<TEmpresa>;
 
-    procedure Salvar;
+    procedure Salvar(Lista: TObjectList<TEmpresa>);
     procedure Carregar;
+
+    property Lista: TObjectList<TEmpresa> read FLista;
   end;
 
 implementation
@@ -84,16 +86,15 @@ begin
   Result := FLista;
 end;
 
-procedure TEmpresaService.Salvar;
+procedure TEmpresaService.Salvar(Lista: TObjectList<TEmpresa>);
 var
   JSONArray: TJSONArray;
   Emp: TEmpresa;
 begin
   JSONArray := TJSONArray.Create;
   try
-    for Emp in FLista do
+    for Emp in Lista do
       JSONArray.AddElement(EmpresaToJSON(Emp));
-
     TFile.WriteAllText(FArquivo, JSONArray.ToString);
   finally
     JSONArray.Free;
@@ -161,6 +162,7 @@ begin
   Result.AddPair('UltimaConsulta', DateToISO8601(Emp.UltimaConsulta));
   Result.AddPair('UltimoNSU', Emp.UltimoNSU);
   Result.AddPair('PastaXML', Emp.PastaXML);
+  Result.AddPair('UF', TJSONNumber.Create(Emp.UF));
 end;
 
 function TEmpresaService.JSONToEmpresa(Obj: TJSONObject): TEmpresa;
@@ -194,7 +196,7 @@ begin
     Result.UltimaConsulta := ISO8601ToDate(StrData);
   Result.UltimoNSU := Obj.GetValue<string>('UltimoNSU', '');
   Result.PastaXML := Obj.GetValue<string>('PastaXML', '');
-
+  Result.UF := Obj.GetValue<integer>('UF',0);
 end;
 
 end.
