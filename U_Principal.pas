@@ -86,7 +86,6 @@ type
     StatusBar2: TStatusBar;
     DBGrid_NFE_Entrada: TDBGrid;
     procedure FormCreate(Sender: TObject);
-    procedure ConfigurarACBr;
     procedure Certificados1Click(Sender: TObject);
     procedure BTN_Importar_CertificadoClick(Sender: TObject);
     procedure BTN_Remover_CertificadoClick(Sender: TObject);
@@ -96,7 +95,10 @@ type
     procedure Button_BuscarClick(Sender: TObject);
     procedure BuscarDistribuicao(Emp: TEmpresa);
     procedure ManifestarNFe(Emp: TEmpresa; Chave: string);
+    procedure ConfigurarACBr(Emp: TEmpresa);
     function BaixarXMLCompleto(Emp: TEmpresa; const Chave: string; out Caminho: string): Boolean;
+    function GetEmpresaSelecionada: TEmpresa;
+
   private
     FListaEmpresas: TObjectList<TEmpresa>;
     procedure CarregarTreeViewEmpresas;
@@ -122,18 +124,16 @@ begin
   Service := TEmpresaService.Create;
   try
     Service.Carregar;
-
     FListaEmpresas := TObjectList<TEmpresa>.Create(True);
-
     // 🔥 cópia manual (correta)
     for Emp in Service.Lista do
       FListaEmpresas.Add(Emp);
-
   finally
     Service.Free;
   end;
 
-  ConfigurarACBr;
+  //ConfigurarACBr;
+
   StringGrid1.Cells[0,0] := 'Titular';
   StringGrid1.Cells[1,0] := 'email';
   StringGrid1.Cells[2,0] := 'CNPJ';
@@ -169,7 +169,8 @@ begin
     //Emp := TEmpresa(TreeView1.Selected.Data);
     Razao := Emp.RazaoSocial;
     Edit_Pasta.Text := Emp.PastaXML;
-  end;
+    if ACBrNFe1.Configuracoes.Certificados.ArquivoPFX <> Emp.CertificadoPath then
+      ConfigurarACBr(Emp);  end;
 end;
 
 procedure TForm_Principal.CarregarTreeViewEmpresas;
@@ -382,7 +383,7 @@ begin
   if (Emp.UltimaConsulta > 0) and
      (MinutesBetween(Agora, Emp.UltimaConsulta) < 60) then
   begin
-    ShowMessage('Aguarde pelo menos 1 hora para nova consulta.');
+    ShowMessage('Aguarde pelo menos 1 hora para nova consulta. Última consulta: '+TimeToStr(Emp.UltimaConsulta));
     Exit;
   end;
 
@@ -406,12 +407,41 @@ begin
     Exit;
   end;
 
+  if (Now - Emp.UltimaConsulta) < (1/24) then
+  begin
+    ShowMessage('Aguarde 1 hora para nova consulta. Última consulta feita: ' + TimeToStr(Emp.UltimaConsulta) );
+    Exit;
+  end;
+
   // 🔹 NSU inicial
   if Emp.UltimoNSU = '' then
     Emp.UltimoNSU := '000000000000000';
 
   // 🔹 Consulta por NSU
   ACBrNFe1.DistribuicaoDFePorUltNSU(Emp.UF, Emp.CNPJ, Emp.UltimoNSU);
+
+  if ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count = 0 then
+  begin
+      // 🔥 Atualiza NSU
+      Emp.UltimoNSU :=
+        ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.ultNSU;
+
+      // 🔥 Atualiza data da última consulta
+      Emp.UltimaConsulta := Now;
+
+      // 🔥 Salvar alterações no JSON
+      Service := TEmpresaService.Create;
+      try
+        Service.Salvar(FListaEmpresas);
+      finally
+        Service.Free;
+      end;
+
+      StatusBar2.SimpleText := 'Consulta finalizada em ' + TimeToStr(Now);
+
+     Showmessage('Nenhum novo documento encontrado!!!');
+     exit;
+  end;
 
   // 🔹 Percorre os documentos retornados
   for I := 0 to ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
@@ -437,7 +467,7 @@ begin
           InfEvento.chNFe := Chave;
           InfEvento.CNPJ := Emp.CNPJ;
           InfEvento.tpEvento := teManifDestCiencia; // teCienciaOperacao;
-
+          InfEvento.dhEvento := Now;
         end;
 
         ACBrNFe1.EnviarEvento(1);
@@ -481,6 +511,7 @@ begin
     InfEvento.chNFe := Chave;
     InfEvento.CNPJ := Emp.CNPJ;
     InfEvento.tpEvento := teManifDestCiencia; //teCienciaOperacao;
+    InfEvento.dhEvento := Now;
   end;
 
   ACBrNFe1.EnviarEvento(1);
@@ -549,7 +580,6 @@ begin
   EmpTree := TEmpresa(Node.Data);
 
   EmpLista := nil;
-
   for var E in FListaEmpresas do
   begin
     if E.CNPJ = EmpTree.CNPJ then
@@ -558,13 +588,11 @@ begin
       Break;
     end;
   end;
-
   if not Assigned(EmpLista) then
   begin
     ShowMessage('Empresa não encontrada na lista.');
     Exit;
   end;
-
   EmpLista.PastaXML := Dir;
 
   ShowMessage(EmpLista.PastaXML);
@@ -604,8 +632,38 @@ begin
 
 end;
 
-procedure TForm_Principal.ConfigurarACBr;
+function TForm_Principal.GetEmpresaSelecionada: TEmpresa;
+var
+  Node: TTreeNode;
 begin
+  Result := nil;
+
+  Node := TreeView1.Selected;
+
+  if not Assigned(Node) then Exit;
+
+  // sobe até o nó raiz
+  while Assigned(Node.Parent) do
+    Node := Node.Parent;
+
+  if Assigned(Node.Data) then
+    Result := TEmpresa(Node.Data);
+end;
+
+procedure TForm_Principal.ConfigurarACBr(Emp: TEmpresa);
+begin
+  if not Assigned(Emp) then
+  begin
+    ShowMessage('Nenhuma empresa selecionada.');
+    Exit;
+  end;
+
+  if not FileExists(Emp.CertificadoPath) then
+  begin
+    ShowMessage('Arquivo de certificado não encontrado.');
+    Exit;
+  end;
+
   SetDllDirectory(PChar(ExtractFilePath(Application.ExeName) + 'openssl'));
 
   with ACBrNFe1.Configuracoes do
@@ -618,12 +676,24 @@ begin
     Arquivos.PathSchemas :=
       ExtractFilePath(Application.ExeName) + 'Schemas\NFe\';
 
-    Certificados.ArquivoPFX := 'D:\certificados\1007702659.pfx';
-    Certificados.Senha := 'guanabara';
+    // 🔥 DINÂMICO
+    Certificados.ArquivoPFX := Emp.CertificadoPath;
+    Certificados.Senha := Emp.CertificadoSenha;
 
-    WebServices.UF := 'RS';
+    // 🔥 DINÂMICO
+    WebServices.UF := CUFToUF(Emp.UF);
   end;
 
+  // 🔐 Força carregar o certificado (importante!)
+  try
+    ACBrNFe1.SSL.CarregarCertificado;
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Erro ao carregar certificado: ' + E.Message);
+      Exit;
+    end;
+  end;
 end;
 
 
